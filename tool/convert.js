@@ -14,7 +14,7 @@ var fs = require('fs'),
     async = require('async');
 
 libxml.Element.prototype.addClass = function(klass) {
-  var origAttr = this.attr('class')
+  var origAttr = this.attr('class');
   if (origAttr) {
     origAttr.value(origAttr.value() + " " + klass);
   } else {
