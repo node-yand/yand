@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-readline">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-readline">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="readline_readline">Readline<span><a class="mark" href="#readline_readline" id=""/></span></h1>
-<pre><code>Stability: 2 - Unstable</code></pre>
-<p>To use this module, do <code>require('readline')</code>. Readline allows reading of a
+<pre class="api_stability_2">Stability: 2 - Unstable</pre><p>To use this module, do <code>require('readline')</code>. Readline allows reading of a
 stream (such as <code>process.stdin</code>) on a line-by-line basis.
 
 </p>
@@ -38,7 +41,8 @@ rl.question("What do you think of node.js? ", function(answer) {
 the following values:
 
 </p>
-<ul><li><p><code>input</code> - the readable stream to listen to (Required).</p>
+<ul>
+<li><p><code>input</code> - the readable stream to listen to (Required).</p>
 </li>
 <li><p><code>output</code> - the writable stream to write readline data to (Required).</p>
 </li>
@@ -49,15 +53,18 @@ below for an example of using this.</p>
 treated like a TTY, and have ANSI/VT100 escape codes written to it.
 Defaults to checking <code>isTTY</code> on the <code>output</code> stream upon instantiation.</p>
 </li>
-</ul><p>The <code>completer</code> function is given a the current line entered by the user, and
+</ul>
+<p>The <code>completer</code> function is given a the current line entered by the user, and
 is supposed to return an Array with 2 entries:
 
 </p>
-<ol><li><p>An Array with matching entries for the completion.</p>
+<ol>
+<li><p>An Array with matching entries for the completion.</p>
 </li>
 <li><p>The substring that was used for the matching.</p>
 </li>
-</ol><p>Which ends up looking something like:
+</ol>
+<p>Which ends up looking something like:
 <code>[[substr1, substr2, ...], originalsubstring]</code>.
 
 </p>
@@ -315,4 +322,9 @@ rl.on('line', function(line) {
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

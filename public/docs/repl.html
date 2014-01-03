@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-repl">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-repl">
     
     <div id="content" class="clearfix">
         
 
         <div id="column1" class="interior">
+          
+
           
 
           <div id="apicontent">
@@ -44,7 +48,8 @@ terminal settings which will allow you to use with <code>rlwrap</code>.
 takes the following values:
 
 </p>
-<ul><li><p><code>prompt</code> - the prompt and <code>stream</code> for all I/O. Defaults to <code>&gt; </code>.</p>
+<ul>
+<li><p><code>prompt</code> - the prompt and <code>stream</code> for all I/O. Defaults to <code>&gt; </code>.</p>
 </li>
 <li><p><code>input</code> - the readable stream to listen to. Defaults to <code>process.stdin</code>.</p>
 </li>
@@ -72,7 +77,8 @@ return value of command if it's <code>undefined</code>. Defaults to <code>false<
 returns the formatting (including coloring) to display. Defaults to
 <code>util.inspect</code>.</p>
 </li>
-</ul><p>You can use your own <code>eval</code> function if it has following signature:
+</ul>
+<p>You can use your own <code>eval</code> function if it has following signature:
 
 </p>
 <pre><code>function eval(cmd, context, filename, callback) {
@@ -176,7 +182,7 @@ associated with each <code>REPLServer</code>.  For example:
 var repl = require("repl"),
     msg = "message";
 
-repl.start().context.m = msg;</code></pre>
+repl.start("&gt; ").context.m = msg;</code></pre>
 <p>Things in the <code>context</code> object appear as local within the REPL:
 
 </p>
@@ -186,7 +192,8 @@ repl.start().context.m = msg;</code></pre>
 <p>There are a few special REPL commands:
 
 </p>
-<ul><li><code>.break</code> - While inputting a multi-line expression, sometimes you get lost
+<ul>
+<li><code>.break</code> - While inputting a multi-line expression, sometimes you get lost
 or just don't care about completing it. <code>.break</code> will start over.</li>
 <li><code>.clear</code> - Resets the <code>context</code> object to an empty object and clears any
 multi-line expression.</li>
@@ -200,15 +207,24 @@ multi-line expression.</li>
 <p>.load ./file/to/load.js</p>
 </blockquote>
 </li>
-</ul><p>The following key combinations in the REPL have these special effects:
+</ul>
+<p>The following key combinations in the REPL have these special effects:
 
 </p>
-<ul><li><code>&lt;ctrl&gt;C</code> - Similar to the <code>.break</code> keyword.  Terminates the current
+<ul>
+<li><code>&lt;ctrl&gt;C</code> - Similar to the <code>.break</code> keyword.  Terminates the current
 command.  Press twice on a blank line to forcibly exit.</li>
 <li><code>&lt;ctrl&gt;D</code> - Similar to the <code>.exit</code> keyword.</li>
-</ul></div>
+</ul>
+
+          </div>
         </div>
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

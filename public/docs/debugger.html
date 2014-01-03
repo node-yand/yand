@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-debugger">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-debugger">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="debugger_debugger">Debugger<span><a class="mark" href="#debugger_debugger" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<!-- type=misc -->
+<pre class="api_stability_3">Stability: 3 - Stable</pre><!-- type=misc -->
 
 <p>V8 comes with an extensive debugger which is accessible out-of-process via a
 simple <a href="http://code.google.com/p/v8/wiki/DebuggerProtocol" target="_blank">TCP protocol</a>.
@@ -102,13 +105,16 @@ prints the active watchers. To remove a watcher, type
 </p>
 <h2 id="debugger_commands_reference">Commands reference<span><a class="mark" href="#debugger_commands_reference" id=""/></span></h2>
 <h3 id="debugger_stepping">Stepping<span><a class="mark" href="#debugger_stepping" id=""/></span></h3>
-<ul><li><code>cont</code>, <code>c</code> - Continue execution</li>
+<ul>
+<li><code>cont</code>, <code>c</code> - Continue execution</li>
 <li><code>next</code>, <code>n</code> - Step next</li>
 <li><code>step</code>, <code>s</code> - Step in</li>
 <li><code>out</code>, <code>o</code> - Step out</li>
-<li><code>pause</code> - Pause running code (like pause button in Developer TOols)</li>
-</ul><h3 id="debugger_breakpoints">Breakpoints<span><a class="mark" href="#debugger_breakpoints" id=""/></span></h3>
-<div class="signature"><ul><li><code>setBreakpoint()</code>, <code>sb()</code> - Set breakpoint on current line</li>
+<li><code>pause</code> - Pause running code (like pause button in Developer Tools)</li>
+</ul>
+<h3 id="debugger_breakpoints">Breakpoints<span><a class="mark" href="#debugger_breakpoints" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>setBreakpoint()</code>, <code>sb()</code> - Set breakpoint on current line</li>
 <li><code>setBreakpoint(line)</code>, <code>sb(line)</code> - Set breakpoint on specific line</li>
 <li><code>setBreakpoint('fn()')</code>, <code>sb(...)</code> - Set breakpoint on a first statement in
 functions body</li>
@@ -116,8 +122,33 @@ functions body</li>
 script.js</li>
 <li><code>clearBreakpoint</code>, <code>cb(...)</code> - Clear breakpoint</li>
 </ul></div>
+<p>It is also possible to set a breakpoint in a file (module) that
+isn't loaded yet:
+
+</p>
+<pre><code>% ./node debug test/fixtures/break-in-module/main.js
+&lt; debugger listening on port 5858
+connecting to port 5858... ok
+break in test/fixtures/break-in-module/main.js:1
+  1 var mod = require('./mod.js');
+  2 mod.hello();
+  3 mod.hello();
+debug&gt; setBreakpoint('mod.js', 23)
+Warning: script 'mod.js' was not loaded yet.
+  1 var mod = require('./mod.js');
+  2 mod.hello();
+  3 mod.hello();
+debug&gt; c
+break in test/fixtures/break-in-module/mod.js:23
+ 21
+ 22 exports.hello = function() {
+ 23   return 'hello from module';
+ 24 };
+ 25
+debug&gt;</code></pre>
 <h3 id="debugger_info">Info<span><a class="mark" href="#debugger_info" id=""/></span></h3>
-<div class="signature"><ul><li><code>backtrace</code>, <code>bt</code> - Print backtrace of current execution frame</li>
+<div class="signature"><ul>
+<li><code>backtrace</code>, <code>bt</code> - Print backtrace of current execution frame</li>
 <li><code>list(5)</code> - List scripts source code with 5 line context (5 lines before and
 after)</li>
 <li><code>watch(expr)</code> - Add expression to watch list</li>
@@ -127,23 +158,40 @@ breakpoint)</li>
 <li><code>repl</code> - Open debugger's repl for evaluation in debugging script's context</li>
 </ul></div>
 <h3 id="debugger_execution_control">Execution control<span><a class="mark" href="#debugger_execution_control" id=""/></span></h3>
-<div class="signature"><ul><li><code>run</code> - Run script (automatically runs on debugger's start)</li>
+<div class="signature"><ul>
+<li><code>run</code> - Run script (automatically runs on debugger's start)</li>
 <li><code>restart</code> - Restart script</li>
 <li><code>kill</code> - Kill script</li>
 </ul></div>
 <h3 id="debugger_various">Various<span><a class="mark" href="#debugger_various" id=""/></span></h3>
-<div class="signature"><ul><li><code>scripts</code> - List all loaded scripts</li>
+<div class="signature"><ul>
+<li><code>scripts</code> - List all loaded scripts</li>
 <li><code>version</code> - Display v8's version</li>
 </ul></div>
 <h2 id="debugger_advanced_usage">Advanced Usage<span><a class="mark" href="#debugger_advanced_usage" id=""/></span></h2>
 <p>The V8 debugger can be enabled and accessed either by starting Node with
 the <code>--debug</code> command-line flag or by signaling an existing Node process
 with <code>SIGUSR1</code>.
+
 </p>
+<p>Once a process has been set in debug mode with this it can be connected to
+with the node debugger. Either connect to the <code>pid</code> or the URI to the debugger.
+The syntax is:
+
+</p>
+<ul>
+<li><code>node debug -p &lt;pid&gt;</code> - Connects to the process via the <code>pid</code></li>
+<li>`node debug <uri> - Connects to the process via the URI such as localhost:5858</uri></li>
+</ul>
 
           </div>
         </div>
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

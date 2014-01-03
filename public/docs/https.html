@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-https">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-https">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="https_https">HTTPS<span><a class="mark" href="#https_https" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<p>HTTPS is the HTTP protocol over TLS/SSL. In Node this is implemented as a
+<pre class="api_stability_3">Stability: 3 - Stable</pre><p>HTTPS is the HTTP protocol over TLS/SSL. In Node this is implemented as a
 separate module.
 
 </p>
@@ -105,7 +108,8 @@ req.on('error', function(e) {
 <p>The options argument has the following options
 
 </p>
-<ul><li><code>host</code>: A domain name or IP address of the server to issue the request to.
+<ul>
+<li><code>host</code>: A domain name or IP address of the server to issue the request to.
 Defaults to <code>'localhost'</code>.</li>
 <li><code>hostname</code>: To support <code>url.parse()</code> <code>hostname</code> is preferred over <code>host</code></li>
 <li><code>port</code>: Port of remote server. Defaults to 443.</li>
@@ -116,16 +120,20 @@ E.G. <code>'/index.html?page=12'</code></li>
 <li><code>auth</code>: Basic authentication i.e. <code>'user:password'</code> to compute an
 Authorization header.</li>
 <li><code>agent</code>: Controls <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/https.html#https_class_https_agent', true)">Agent</a> behavior. When an Agent is used request will
-default to <code>Connection: keep-alive</code>. Possible values:<ul><li><code>undefined</code> (default): use <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/https.html#https_https_globalagent', true)">globalAgent</a> for this host and port.</li>
+default to <code>Connection: keep-alive</code>. Possible values:<ul>
+<li><code>undefined</code> (default): use <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/https.html#https_https_globalagent', true)">globalAgent</a> for this host and port.</li>
 <li><code>Agent</code> object: explicitly use the passed in <code>Agent</code>.</li>
 <li><code>false</code>: opts out of connection pooling with an Agent, defaults request to
 <code>Connection: close</code>.</li>
-</ul></li>
-</ul><p>The following options from <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/tls.html#tls_tls_connect_options_secureconnectlistener', true)">tls.connect()</a> can also be specified. However, a
+</ul>
+</li>
+</ul>
+<p>The following options from <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/tls.html#tls_tls_connect_options_callback', true)">tls.connect()</a> can also be specified. However, a
 <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/https.html#https_https_globalagent', true)">globalAgent</a> silently ignores these.
 
 </p>
-<ul><li><code>pfx</code>: Certificate, Private key and CA certificates to use for SSL. Default <code>null</code>.</li>
+<ul>
+<li><code>pfx</code>: Certificate, Private key and CA certificates to use for SSL. Default <code>null</code>.</li>
 <li><code>key</code>: Private key to use for SSL. Default <code>null</code>.</li>
 <li><code>passphrase</code>: A string of passphrase for the private key or pfx. Default <code>null</code>.</li>
 <li><code>cert</code>: Public x509 certificate to use. Default <code>null</code>.</li>
@@ -137,8 +145,12 @@ details on the format.</li>
 <li><code>rejectUnauthorized</code>: If <code>true</code>, the server certificate is verified against
 the list of supplied CAs. An <code>'error'</code> event is emitted if verification
 fails. Verification happens at the connection level, <em>before</em> the HTTP
-request is sent. Default <code>false</code>.</li>
-</ul><p>In order to specify these options, use a custom <code>Agent</code>.
+request is sent. Default <code>true</code>.</li>
+<li><code>secureProtocol</code>: The SSL method to use, e.g. <code>SSLv3_method</code> to force
+SSL version 3. The possible values depend on your installation of
+OpenSSL and are defined in the constant <a href="http://www.openssl.org/docs/ssl/ssl.html#DEALING_WITH_PROTOCOL_METHODS" target="_blank">SSL_METHODS</a>.</li>
+</ul>
+<p>In order to specify these options, use a custom <code>Agent</code>.
 
 </p>
 <p>Example:
@@ -216,4 +228,9 @@ for more information.
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

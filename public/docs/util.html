@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-util">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-util">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="util_util">util<span><a class="mark" href="#util_util" id=""/></span></h1>
-<pre><code>Stability: 5 - Locked</code></pre>
-<p>These functions are in the module <code>'util'</code>. Use <code>require('util')</code> to access
+<pre class="api_stability_4">Stability: 4 - API Frozen</pre><p>These functions are in the module <code>'util'</code>. Use <code>require('util')</code> to access
 them.
 
 
@@ -25,11 +28,13 @@ Each placeholder is replaced with the converted value from its corresponding
 argument. Supported placeholders are:
 
 </p>
-<ul><li><code>%s</code> - String.</li>
+<ul>
+<li><code>%s</code> - String.</li>
 <li><code>%d</code> - Number (both integer and float).</li>
 <li><code>%j</code> - JSON.</li>
 <li><code>%</code> - single percent sign (<code>'%'</code>). This does not consume an argument.</li>
-</ul><p>If the placeholder does not have a corresponding argument, the placeholder is
+</ul>
+<p>If the placeholder does not have a corresponding argument, the placeholder is
 not replaced.
 
 </p>
@@ -72,32 +77,59 @@ string then output to <code>stdout</code>. Does not place newlines after each ar
 
 </p>
 <pre><code>require('util').log('Timestamped message.');</code></pre>
-<h2 id="util_util_inspect_object_showhidden_depth_colors">util.inspect(object, [showHidden], [depth], [colors])<span><a class="mark" href="#util_util_inspect_object_showhidden_depth_colors" id=""/></span></h2>
+<h2 id="util_util_inspect_object_options">util.inspect(object, [options])<span><a class="mark" href="#util_util_inspect_object_options" id=""/></span></h2>
 <p>Return a string representation of <code>object</code>, which is useful for debugging.
 
 </p>
-<p>If <code>showHidden</code> is <code>true</code>, then the object's non-enumerable properties will be
-shown too. Defaults to <code>false</code>.
+<p>An optional <em>options</em> object may be passed that alters certain aspects of the
+formatted string:
 
 </p>
-<p>If <code>depth</code> is provided, it tells <code>inspect</code> how many times to recurse while
-formatting the object. This is useful for inspecting large complicated objects.
-
-</p>
-<p>The default is to only recurse twice.  To make it recurse indefinitely, pass
-in <code>null</code> for <code>depth</code>.
-
-</p>
-<p>If <code>colors</code> is <code>true</code>, the output will be styled with ANSI color codes.
-Defaults to <code>false</code>.
-
-</p>
+<ul>
+<li><p><code>showHidden</code> - if <code>true</code> then the object's non-enumerable properties will be
+shown too. Defaults to <code>false</code>.</p>
+</li>
+<li><p><code>depth</code> - tells <code>inspect</code> how many times to recurse while formatting the
+object. This is useful for inspecting large complicated objects. Defaults to
+<code>2</code>. To make it recurse indefinitely pass <code>null</code>.</p>
+</li>
+<li><p><code>colors</code> - if <code>true</code>, then the output will be styled with ANSI color codes.
+Defaults to <code>false</code>. Colors are customizable, see below.</p>
+</li>
+<li><p><code>customInspect</code> - if <code>false</code>, then custom <code>inspect()</code> functions defined on the
+objects being inspected won't be called. Defaults to <code>true</code>.</p>
+</li>
+</ul>
 <p>Example of inspecting all properties of the <code>util</code> object:
 
 </p>
 <pre><code>var util = require('util');
 
-console.log(util.inspect(util, true, null));</code></pre>
+console.log(util.inspect(util, { showHidden: true, depth: null }));</code></pre>
+<h3 id="util_customizing_util_inspect_colors">Customizing <code>util.inspect</code> colors<span><a class="mark" href="#util_customizing_util_inspect_colors" id=""/></span></h3>
+<p>Color output (if enabled) of <code>util.inspect</code> is customizable globally
+via <code>util.inspect.styles</code> and <code>util.inspect.colors</code> objects.
+
+</p>
+<p><code>util.inspect.styles</code> is a map assigning each style a color
+from <code>util.inspect.colors</code>.
+Highlighted styles and their default values are:
+ <em> <code>number</code> (yellow)
+ </em> <code>boolean</code> (yellow)
+ <em> <code>string</code> (green)
+ </em> <code>date</code> (magenta)
+ <em> <code>regexp</code> (red)
+ </em> <code>null</code> (bold)
+ <em> <code>undefined</code> (grey)
+ </em> <code>special</code> - only function at this time (cyan)
+ * <code>name</code> (intentionally no styling)
+
+</p>
+<p>Predefined color codes are: <code>white</code>, <code>grey</code>, <code>black</code>, <code>blue</code>, <code>cyan</code>, 
+<code>green</code>, <code>magenta</code>, <code>red</code> and <code>yellow</code>.
+There are also <code>bold</code>, <code>italic</code>, <code>underline</code> and <code>inverse</code> codes.
+
+</p>
 <p>Objects also may define their own <code>inspect(depth)</code> function which <code>util.inspect()</code>
 will invoke and use the result of when inspecting the object:
 
@@ -160,8 +192,7 @@ util.isError(new TypeError())
 util.isError({ name: 'Error', message: 'an error occurred' })
   // false</code></pre>
 <h2 id="util_util_pump_readablestream_writablestream_callback">util.pump(readableStream, writableStream, [callback])<span><a class="mark" href="#util_util_pump_readablestream_writablestream_callback" id=""/></span></h2>
-<pre><code>Stability: 0 - Deprecated: Use readableStream.pipe(writableStream)</code></pre>
-<p>Read the data from <code>readableStream</code> and send it to the <code>writableStream</code>.
+<pre class="api_stability_0">Stability: 0 - Deprecated: Use readableStream.pipe(writableStream)</pre><p>Read the data from <code>readableStream</code> and send it to the <code>writableStream</code>.
 When <code>writableStream.write(data)</code> returns <code>false</code> <code>readableStream</code> will be
 paused until the <code>drain</code> event occurs on the <code>writableStream</code>. <code>callback</code> gets
 an error as its only argument and is called when <code>writableStream</code> is closed or
@@ -208,4 +239,9 @@ stream.write("It works!"); // Received data: "It works!"</code></pre>
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

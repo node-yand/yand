@@ -14,10 +14,10 @@ $ redis-server
 ```
 
 Then run `make NODE_VERSION=(specified version) build` command.
-If you want to build document for Node.js v0.8.18, run following command.
+If you want to build document for Node.js v0.10.24, run following command.
 
 ```sh
-$ make NODE_VERSION=v0.8.18 build
+$ make NODE_VERSION=v0.10.24 build
 ```
 
 ## License

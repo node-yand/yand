@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-child_process">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-child_process">
     
     <div id="content" class="clearfix">
         
@@ -8,15 +10,18 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="child_process_child_process">Child Process<span><a class="mark" href="#child_process_child_process" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<p>Node provides a tri-directional <code>popen(3)</code> facility through the
+<pre class="api_stability_3">Stability: 3 - Stable</pre><p>Node provides a tri-directional <code>popen(3)</code> facility through the
 <code>child_process</code> module.
 
 </p>
 <p>It is possible to stream data through a child's <code>stdin</code>, <code>stdout</code>, and
-<code>stderr</code> in a fully non-blocking way.
+<code>stderr</code> in a fully non-blocking way.  (Note that some programs use
+line-buffered I/O internally.  That doesn't affect node.js but it means
+data you send to the child process is not immediately consumed.)
 
 </p>
 <p>To create a child process use <code>require('child_process').spawn()</code> or
@@ -38,8 +43,30 @@ which can be piped to and from.
 <code>spawn()</code> or <code>fork()</code> methods to create a Child Process instance.
 
 </p>
+<h3 id="child_process_event_error">Event:  'error'<span><a class="mark" href="#child_process_event_error" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>err</code> <span class="type">Error Object</span> the error.</li>
+</ul></div>
+<p>Emitted when:
+
+</p>
+<ol>
+<li>The process could not be spawned, or</li>
+<li>The process could not be killed, or</li>
+<li>Sending a message to the child process failed for whatever reason.</li>
+</ol>
+<p>Note that the <code>exit</code>-event may or may not fire after an error has occured. If
+you are listening on both events to fire a function, remember to guard against
+calling your function twice.
+
+</p>
+<p>See also <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/child_process.html#child_process_child_kill_signal', true)"><code>ChildProcess#kill()</code></a> and
+<a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/child_process.html#child_process_child_send_message_sendhandle', true)"><code>ChildProcess#send()</code></a>.
+
+</p>
 <h3 id="child_process_event_exit">Event:  'exit'<span><a class="mark" href="#child_process_event_exit" id=""/></span></h3>
-<div class="signature"><ul><li><code>code</code> <span class="type">Number</span> the exit code, if it exited normally.</li>
+<div class="signature"><ul>
+<li><code>code</code> <span class="type">Number</span> the exit code, if it exited normally.</li>
 <li><code>signal</code> <span class="type">String</span> the signal passed to kill the child process, if it
 was killed by the parent.</li>
 </ul></div>
@@ -52,24 +79,33 @@ of the signal, otherwise <code>null</code>.
 <p>Note that the child process stdio streams might still be open.
 
 </p>
+<p>Also, note that node establishes signal handlers for <code>'SIGINT'</code> and <code>'SIGTERM</code>',
+so it will not terminate due to receipt of those signals, it will exit.
+
+</p>
 <p>See <code>waitpid(2)</code>.
 
 </p>
 <h3 id="child_process_event_close">Event: 'close'<span><a class="mark" href="#child_process_event_close" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>code</code> <span class="type">Number</span> the exit code, if it exited normally.</li>
+<li><code>signal</code> <span class="type">String</span> the signal passed to kill the child process, if it
+was killed by the parent.</li>
+</ul></div>
 <p>This event is emitted when the stdio streams of a child process have all
 terminated.  This is distinct from 'exit', since multiple processes
 might share the same stdio streams.
 
 </p>
 <h3 id="child_process_event_disconnect">Event: 'disconnect'<span><a class="mark" href="#child_process_event_disconnect" id=""/></span></h3>
-<p>This event is emitted after using the <code>.disconnect()</code> method in the parent or
-in the child. After disconnecting it is no longer possible to send messages.
-An alternative way to check if you can send messages is to see if the
-<code>child.connected</code> property is <code>true</code>.
+<p>This event is emitted after calling the <code>.disconnect()</code> method in the parent
+or in the child. After disconnecting it is no longer possible to send messages,
+and the <code>.connected</code> property is false.
 
 </p>
 <h3 id="child_process_event_message">Event: 'message'<span><a class="mark" href="#child_process_event_message" id=""/></span></h3>
-<div class="signature"><ul><li><code>message</code> <span class="type">Object</span> a parsed JSON object or primitive value</li>
+<div class="signature"><ul>
+<li><code>message</code> <span class="type">Object</span> a parsed JSON object or primitive value</li>
 <li><code>sendHandle</code> <span class="type">Handle object</span> a Socket or Server object</li>
 </ul></div>
 <p>Messages send by <code>.send(message, [sendHandle])</code> are obtained using the
@@ -77,7 +113,8 @@ An alternative way to check if you can send messages is to see if the
 
 </p>
 <h3 id="child_process_child_stdin">child.stdin<span><a class="mark" href="#child_process_child_stdin" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Stream object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Stream object</span></li>
 </ul></div>
 <p>A <code>Writable Stream</code> that represents the child process's <code>stdin</code>.
 Closing this stream via <code>end()</code> often causes the child process to terminate.
@@ -88,7 +125,8 @@ not be set.
 
 </p>
 <h3 id="child_process_child_stdout">child.stdout<span><a class="mark" href="#child_process_child_stdout" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Stream object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Stream object</span></li>
 </ul></div>
 <p>A <code>Readable Stream</code> that represents the child process's <code>stdout</code>.
 
@@ -98,7 +136,8 @@ not be set.
 
 </p>
 <h3 id="child_process_child_stderr">child.stderr<span><a class="mark" href="#child_process_child_stderr" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Stream object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Stream object</span></li>
 </ul></div>
 <p>A <code>Readable Stream</code> that represents the child process's <code>stderr</code>.
 
@@ -108,7 +147,8 @@ not be set.
 
 </p>
 <h3 id="child_process_child_pid">child.pid<span><a class="mark" href="#child_process_child_pid" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Integer</span></li>
+<div class="signature"><ul>
+<li><span class="type">Integer</span></li>
 </ul></div>
 <p>The PID of the child process.
 
@@ -121,8 +161,16 @@ not be set.
 
 console.log('Spawned child pid: ' + grep.pid);
 grep.stdin.end();</code></pre>
+<h3 id="child_process_child_connected">child.connected<span><a class="mark" href="#child_process_child_connected" id=""/></span></h3>
+<div class="signature"><ul>
+<li><span class="type">Boolean</span> Set to false after `.disconnect' is called</li>
+</ul></div>
+<p>If <code>.connected</code> is false, it is no longer possible to send messages.
+
+</p>
 <h3 id="child_process_child_kill_signal">child.kill([signal])<span><a class="mark" href="#child_process_child_kill_signal" id=""/></span></h3>
-<div class="signature"><ul><li><code>signal</code> <span class="type">String</span></li>
+<div class="signature"><ul>
+<li><code>signal</code> <span class="type">String</span></li>
 </ul></div>
 <p>Send a signal to the child process. If no argument is given, the process will
 be sent <code>'SIGTERM'</code>. See <code>signal(7)</code> for a list of available signals.
@@ -131,21 +179,30 @@ be sent <code>'SIGTERM'</code>. See <code>signal(7)</code> for a list of availab
 <pre><code>var spawn = require('child_process').spawn,
     grep  = spawn('grep', ['ssh']);
 
-grep.on('exit', function (code, signal) {
+grep.on('close', function (code, signal) {
   console.log('child process terminated due to receipt of signal '+signal);
 });
 
 // send SIGHUP to process
 grep.kill('SIGHUP');</code></pre>
-<p>Note that while the function is called <code>kill</code>, the signal delivered to the child
-process may not actually kill it.  <code>kill</code> really just sends a signal to a process.
+<p>May emit an <code>'error'</code> event when the signal cannot be delivered. Sending a
+signal to a child process that has already exited is not an error but may
+have unforeseen consequences: if the PID (the process ID) has been reassigned
+to another process, the signal will be delivered to that process instead.
+What happens next is anyone's guess.
+
+</p>
+<p>Note that while the function is called <code>kill</code>, the signal delivered to the
+child process may not actually kill it.  <code>kill</code> really just sends a signal
+to a process.
 
 </p>
 <p>See <code>kill(2)</code>
 
 </p>
 <h3 id="child_process_child_send_message_sendhandle">child.send(message, [sendHandle])<span><a class="mark" href="#child_process_child_send_message_sendhandle" id=""/></span></h3>
-<div class="signature"><ul><li><code>message</code> <span class="type">Object</span></li>
+<div class="signature"><ul>
+<li><code>message</code> <span class="type">Object</span></li>
 <li><code>sendHandle</code> <span class="type">Handle object</span></li>
 </ul></div>
 <p>When using <code>child_process.fork()</code> you can write to the child using
@@ -189,9 +246,11 @@ socket object to another process. The child will receive the object as its
 second argument to the <code>message</code> event.
 
 </p>
-<p><strong>send server object</strong>
+<p>Emits an <code>'error'</code> event if the message cannot be sent, for example because
+the child process has already exited.
 
 </p>
+<h4 id="child_process_example_sending_server_object">Example: sending server object<span><a class="mark" href="#child_process_example_sending_server_object" id=""/></span></h4>
 <p>Here is an example of sending a server:
 
 </p>
@@ -219,9 +278,12 @@ server.listen(1337, function() {
 that some connections will be handled by the parent and some by the child.
 
 </p>
-<p><strong>send socket object</strong>
+<p>For <code>dgram</code> servers the workflow is exactly the same.  Here you listen on
+a <code>message</code> event instead of <code>connection</code> and use <code>server.bind</code> instead of
+<code>server.listen</code>.  (Currently only supported on UNIX platforms.)
 
 </p>
+<h4 id="child_process_example_sending_socket_object">Example: sending socket object<span><a class="mark" href="#child_process_example_sending_socket_object" id=""/></span></h4>
 <p>Here is an example of sending a socket. It will spawn two children and handle
 connections with the remote address <code>74.125.127.100</code> as VIP by sending the
 socket to a "special" child process. Other sockets will go to a "normal" process.
@@ -258,18 +320,25 @@ It is also recommended not to use <code>.maxConnections</code> in this condition
 
 </p>
 <h3 id="child_process_child_disconnect">child.disconnect()<span><a class="mark" href="#child_process_child_disconnect" id=""/></span></h3>
-<p>To close the IPC connection between parent and child use the
-<code>child.disconnect()</code> method. This allows the child to exit gracefully since
-there is no IPC channel keeping it alive. When calling this method the
-<code>disconnect</code> event will be emitted in both parent and child, and the
-<code>connected</code> flag will be set to <code>false</code>. Please note that you can also call
-<code>process.disconnect()</code> in the child process.
+<p>Close the IPC channel between parent and child, allowing the child to exit
+gracefully once there are no other connections keeping it alive. After calling
+this method the <code>.connected</code> flag will be set to <code>false</code> in both the parent and
+child, and it is no longer possible to send messages.
+
+</p>
+<p>The 'disconnect' event will be emitted when there are no messages in the process
+of being received, most likely immediately.
+
+</p>
+<p>Note that you can also call <code>process.disconnect()</code> in the child process.
 
 </p>
 <h2 id="child_process_child_process_spawn_command_args_options">child_process.spawn(command, [args], [options])<span><a class="mark" href="#child_process_child_process_spawn_command_args_options" id=""/></span></h2>
-<div class="signature"><ul><li><code>command</code> <span class="type">String</span> The command to run</li>
+<div class="signature"><ul>
+<li><code>command</code> <span class="type">String</span> The command to run</li>
 <li><code>args</code> <span class="type">Array</span> List of string arguments</li>
-<li><code>options</code> <span class="type">Object</span><ul><li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
+<li><code>options</code> <span class="type">Object</span><ul>
+<li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
 <li><code>stdio</code> <span class="type">Array|String</span> Child's stdio configuration. (See below)</li>
 <li><code>customFds</code> <span class="type">Array</span> <strong>Deprecated</strong> File descriptors for the child to use
 for stdio.  (See below)</li>
@@ -277,7 +346,8 @@ for stdio.  (See below)</li>
 <li><code>detached</code> <span class="type">Boolean</span> The child will be a process group leader.  (See below)</li>
 <li><code>uid</code> <span class="type">Number</span> Sets the user identity of the process. (See setuid(2).)</li>
 <li><code>gid</code> <span class="type">Number</span> Sets the group identity of the process. (See setgid(2).)</li>
-</ul></li>
+</ul>
+</li>
 <li>return: <span class="type">ChildProcess object</span></li>
 </ul></div>
 <p>Launches a new process with the given <code>command</code>, with  command line arguments in <code>args</code>.
@@ -308,7 +378,7 @@ ls.stderr.on('data', function (data) {
   console.log('stderr: ' + data);
 });
 
-ls.on('exit', function (code) {
+ls.on('close', function (code) {
   console.log('child process exited with code ' + code);
 });</code></pre>
 <p>Example: A very elaborate way to run 'ps ax | grep ssh'
@@ -326,7 +396,7 @@ ps.stderr.on('data', function (data) {
   console.log('ps stderr: ' + data);
 });
 
-ps.on('exit', function (code) {
+ps.on('close', function (code) {
   if (code !== 0) {
     console.log('ps process exited with code ' + code);
   }
@@ -341,7 +411,7 @@ grep.stderr.on('data', function (data) {
   console.log('grep stderr: ' + data);
 });
 
-grep.on('exit', function (code) {
+grep.on('close', function (code) {
   if (code !== 0) {
     console.log('grep process exited with code ' + code);
   }
@@ -368,7 +438,8 @@ API.
 index corresponds to a fd in the child.  The value is one of the following:
 
 </p>
-<ol><li><code>'pipe'</code> - Create a pipe between the child process and the parent process.
+<ol>
+<li><code>'pipe'</code> - Create a pipe between the child process and the parent process.
 The parent end of the pipe is exposed to the parent as a property on the
 <code>child_process</code> object as <code>ChildProcess.stdio[fd]</code>. Pipes created for
 fds 0 - 2 are also available as ChildProcess.stdin, ChildProcess.stdout
@@ -393,14 +464,17 @@ process, similar to how <code>Stream</code> objects can be shared.</li>
 <li><code>null</code>, <code>undefined</code> - Use default value. For stdio fds 0, 1 and 2 (in other
 words, stdin, stdout, and stderr) a pipe is created. For fd 3 and up, the
 default is <code>'ignore'</code>.</li>
-</ol><p>As a shorthand, the <code>stdio</code> argument may also be one of the following
+</ol>
+<p>As a shorthand, the <code>stdio</code> argument may also be one of the following
 strings, rather than an array:
 
 </p>
-<ul><li><code>ignore</code> - <code>['ignore', 'ignore', 'ignore']</code></li>
+<ul>
+<li><code>ignore</code> - <code>['ignore', 'ignore', 'ignore']</code></li>
 <li><code>pipe</code> - <code>['pipe', 'pipe', 'pipe']</code></li>
 <li><code>inherit</code> - <code>[process.stdin, process.stdout, process.stderr]</code> or <code>[0,1,2]</code></li>
-</ul><p>Example:
+</ul>
+<p>Example:
 
 </p>
 <pre><code>var spawn = require('child_process').spawn;
@@ -453,30 +527,27 @@ stderr]</code> to existing streams; <code>-1</code> meant that a new stream shou
 Use at your own risk.
 
 </p>
-<p>There are several internal options. In particular <code>stdinStream</code>,
-<code>stdoutStream</code>, <code>stderrStream</code>. They are for INTERNAL USE ONLY. As with all
-undocumented APIs in Node, they should not be used.
-
-</p>
 <p>See also: <code>child_process.exec()</code> and <code>child_process.fork()</code>
 
 </p>
 <h2 id="child_process_child_process_exec_command_options_callback">child_process.exec(command, [options], callback)<span><a class="mark" href="#child_process_child_process_exec_command_options_callback" id=""/></span></h2>
-<div class="signature"><ul><li><code>command</code> <span class="type">String</span> The command to run, with space-separated arguments</li>
-<li><code>options</code> <span class="type">Object</span><ul><li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
-<li><code>stdio</code> <span class="type">Array|String</span> Child's stdio configuration. (See above)</li>
-<li><code>customFds</code> <span class="type">Array</span> <strong>Deprecated</strong> File descriptors for the child to use
-for stdio.  (See above)</li>
+<div class="signature"><ul>
+<li><code>command</code> <span class="type">String</span> The command to run, with space-separated arguments</li>
+<li><code>options</code> <span class="type">Object</span><ul>
+<li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
 <li><code>env</code> <span class="type">Object</span> Environment key-value pairs</li>
 <li><code>encoding</code> <span class="type">String</span> (Default: 'utf8')</li>
 <li><code>timeout</code> <span class="type">Number</span> (Default: 0)</li>
-<li><code>maxBuffer</code> <span class="type">Number</span> (Default: 200*1024)</li>
+<li><code>maxBuffer</code> <span class="type">Number</span> (Default: <code>200*1024</code>)</li>
 <li><code>killSignal</code> <span class="type">String</span> (Default: 'SIGTERM')</li>
-</ul></li>
-<li><code>callback</code> <span class="type">Function</span> called with the output when process terminates<ul><li><code>error</code> <span class="type">Error</span></li>
+</ul>
+</li>
+<li><code>callback</code> <span class="type">Function</span> called with the output when process terminates<ul>
+<li><code>error</code> <span class="type">Error</span></li>
 <li><code>stdout</code> <span class="type">Buffer</span></li>
 <li><code>stderr</code> <span class="type">Buffer</span></li>
-</ul></li>
+</ul>
+</li>
 <li>Return: ChildProcess object</li>
 </ul></div>
 <p>Runs a command in a shell and buffers the output.
@@ -518,22 +589,24 @@ the child process is killed.
 
 </p>
 <h2 id="child_process_child_process_execfile_file_args_options_callback">child_process.execFile(file, args, options, callback)<span><a class="mark" href="#child_process_child_process_execfile_file_args_options_callback" id=""/></span></h2>
-<div class="signature"><ul><li><code>file</code> <span class="type">String</span> The filename of the program to run</li>
+<div class="signature"><ul>
+<li><code>file</code> <span class="type">String</span> The filename of the program to run</li>
 <li><code>args</code> <span class="type">Array</span> List of string arguments</li>
-<li><code>options</code> <span class="type">Object</span><ul><li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
-<li><code>stdio</code> <span class="type">Array|String</span> Child's stdio configuration. (See above)</li>
-<li><code>customFds</code> <span class="type">Array</span> <strong>Deprecated</strong> File descriptors for the child to use
-for stdio.  (See above)</li>
+<li><code>options</code> <span class="type">Object</span><ul>
+<li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
 <li><code>env</code> <span class="type">Object</span> Environment key-value pairs</li>
 <li><code>encoding</code> <span class="type">String</span> (Default: 'utf8')</li>
 <li><code>timeout</code> <span class="type">Number</span> (Default: 0)</li>
 <li><code>maxBuffer</code> <span class="type">Number</span> (Default: 200*1024)</li>
 <li><code>killSignal</code> <span class="type">String</span> (Default: 'SIGTERM')</li>
-</ul></li>
-<li><code>callback</code> <span class="type">Function</span> called with the output when process terminates<ul><li><code>error</code> <span class="type">Error</span></li>
+</ul>
+</li>
+<li><code>callback</code> <span class="type">Function</span> called with the output when process terminates<ul>
+<li><code>error</code> <span class="type">Error</span></li>
 <li><code>stdout</code> <span class="type">Buffer</span></li>
 <li><code>stderr</code> <span class="type">Buffer</span></li>
-</ul></li>
+</ul>
+</li>
 <li>Return: ChildProcess object</li>
 </ul></div>
 <p>This is similar to <code>child_process.exec()</code> except it does not execute a
@@ -543,12 +616,20 @@ leaner than <code>child_process.exec</code>. It has the same options.
 
 </p>
 <h2 id="child_process_child_process_fork_modulepath_args_options">child_process.fork(modulePath, [args], [options])<span><a class="mark" href="#child_process_child_process_fork_modulepath_args_options" id=""/></span></h2>
-<div class="signature"><ul><li><code>modulePath</code> <span class="type">String</span> The module to run in the child</li>
+<div class="signature"><ul>
+<li><code>modulePath</code> <span class="type">String</span> The module to run in the child</li>
 <li><code>args</code> <span class="type">Array</span> List of string arguments</li>
-<li><code>options</code> <span class="type">Object</span><ul><li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
+<li><code>options</code> <span class="type">Object</span><ul>
+<li><code>cwd</code> <span class="type">String</span> Current working directory of the child process</li>
 <li><code>env</code> <span class="type">Object</span> Environment key-value pairs</li>
 <li><code>encoding</code> <span class="type">String</span> (Default: 'utf8')</li>
-</ul></li>
+<li><code>execPath</code> <span class="type">String</span> Executable used to create the child process</li>
+<li><code>execArgv</code> <span class="type">Array</span> List of string arguments passed to the executable
+(Default: <code>process.execArgv</code>)</li>
+<li><code>silent</code> <span class="type">Boolean</span> If true, prevent stdout and stderr in the spawned node
+process from being associated with the parent's (default is false)</li>
+</ul>
+</li>
 <li>Return: ChildProcess object</li>
 </ul></div>
 <p>This is a special case of the <code>spawn()</code> functionality for spawning Node
@@ -557,18 +638,16 @@ instance, the returned object has a communication channel built-in. See
 <code>child.send(message, [sendHandle])</code> for details.
 
 </p>
-<p>By default the spawned Node process will have the stdout, stderr associated
-with the parent's. To change this behavior set the <code>silent</code> property in the
-<code>options</code> object to <code>true</code>.
-
-</p>
-<p>The child process does not automatically exit once it's done, you need to call
-<code>process.exit()</code> explicitly. This limitation may be lifted in the future.
-
-</p>
 <p>These child Nodes are still whole new instances of V8. Assume at least 30ms
 startup and 10mb memory for each new Node. That is, you cannot create many
 thousands of them.
+
+</p>
+<p>The <code>execPath</code> property in the <code>options</code> object allows for a process to be
+created for the child rather than the current <code>node</code> executable. This should be
+done with care and by default will talk over the fd represented an
+environmental variable <code>NODE_CHANNEL_FD</code> on the child process. The input and
+output on this fd is expected to be line delimited JSON objects.
 
 </p>
 
@@ -577,4 +656,9 @@ thousands of them.
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>
