@@ -212,6 +212,8 @@ Yand.prototype.linkOpen = function(link, saveState) {
   var href = (typeof link === 'string' ? link : link.attr('href')),
       saveState = (saveState != undefined) ? saveState : true;
 
+  self.validateLink(href);
+
   function loadPage() {
     if (parent.docwin && parent.docwin.pageLoad) {
       parent.docwin.pageLoad(href, saveState);
@@ -220,6 +222,12 @@ Yand.prototype.linkOpen = function(link, saveState) {
     }
   }
   setTimeout(loadPage, 0);
+};
+
+Yand.prototype.validateLink = function(href) {
+  if (href.match(/^https?/) || href.match(/^\/\//)) {
+      throw new Error("invalid link");
+  }
 };
 
 $(function() {
