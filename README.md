@@ -25,6 +25,7 @@ $ make NODE_VERSION=v0.8.18 build
     (The MIT License)
 
     Copyright (c) 2013 Kazuyuki Honda <hakobera@gmail.com>
+    Copyright (c) 2014 mori-dev <mori.dev.asdf@gmail.com>, Kazuyuki Honda <hakobera@gmail.com>
 
     Permission is hereby granted, free of charge, to any person obtaining
     a copy of this software and associated documentation files (the
@@ -44,4 +45,3 @@ $ make NODE_VERSION=v0.8.18 build
     CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
     TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
     SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    
