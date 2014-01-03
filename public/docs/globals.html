@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-globals">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-globals">
     
     <div id="content" class="clearfix">
         
 
         <div id="column1" class="interior">
+          
+
           
 
           <div id="apicontent">
@@ -19,8 +23,10 @@ actually in the global scope but in the module scope - this will be noted.
 <h2 id="globals_global">global<span><a class="mark" href="#globals_global" id=""/></span></h2>
 <!-- type=global -->
 
-<ul><li>{Object} The global namespace object.</li>
-</ul><p>In browsers, the top-level scope is the global scope. That means that in
+<ul>
+<li>{Object} The global namespace object.</li>
+</ul>
+<p>In browsers, the top-level scope is the global scope. That means that in
 browsers if you're in the global scope <code>var something</code> will define a global
 variable. In Node this is different. The top-level scope is not the global
 scope; <code>var something</code> inside a Node module will be local to that module.
@@ -29,29 +35,37 @@ scope; <code>var something</code> inside a Node module will be local to that mod
 <h2 id="globals_process">process<span><a class="mark" href="#globals_process" id=""/></span></h2>
 <!-- type=global -->
 
-<ul><li>{Object}</li>
-</ul><p>The process object. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/process.html#process_process', true)">process object</a> section.
+<ul>
+<li>{Object}</li>
+</ul>
+<p>The process object. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/process.html#process_process', true)">process object</a> section.
 
 </p>
 <h2 id="globals_console">console<span><a class="mark" href="#globals_console" id=""/></span></h2>
 <!-- type=global -->
 
-<ul><li>{Object}</li>
-</ul><p>Used to print to stdout and stderr. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/stdio.html', true)">stdio</a> section.
+<ul>
+<li>{Object}</li>
+</ul>
+<p>Used to print to stdout and stderr. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/console.html', true)">console</a> section.
 
 </p>
 <h2 id="globals_class_buffer">Class: Buffer<span><a class="mark" href="#globals_class_buffer" id=""/></span></h2>
 <!-- type=global -->
 
-<ul><li>{Function}</li>
-</ul><p>Used to handle binary data. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/buffer.html', true)">buffer section</a>
+<ul>
+<li>{Function}</li>
+</ul>
+<p>Used to handle binary data. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/buffer.html', true)">buffer section</a>
 
 </p>
 <h2 id="globals_require">require()<span><a class="mark" href="#globals_require" id=""/></span></h2>
 <!-- type=var -->
 
-<ul><li>{Function}</li>
-</ul><p>To require modules. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/modules.html#modules_modules', true)">Modules</a> section.  <code>require</code> isn't actually a
+<ul>
+<li>{Function}</li>
+</ul>
+<p>To require modules. See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/modules.html#modules_modules', true)">Modules</a> section.  <code>require</code> isn't actually a
 global but rather local to each module.
 
 </p>
@@ -61,14 +75,16 @@ but rather than loading the module, just return the resolved filename.
 
 </p>
 <h3 id="globals_require_cache">require.cache<span><a class="mark" href="#globals_require_cache" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Object</span></li>
 </ul></div>
 <p>Modules are cached in this object when they are required. By deleting a key
 value from this object, the next <code>require</code> will reload the module.
 
 </p>
 <h3 id="globals_require_extensions">require.extensions<span><a class="mark" href="#globals_require_extensions" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Array</span></li>
+<pre class="api_stability_0">Stability: 0 - Deprecated</pre><div class="signature"><ul>
+<li><span class="type">Object</span></li>
 </ul></div>
 <p>Instruct <code>require</code> on how to handle certain file extensions.
 
@@ -77,11 +93,25 @@ value from this object, the next <code>require</code> will reload the module.
 
 </p>
 <pre><code>require.extensions['.sjs'] = require.extensions['.js'];</code></pre>
+<p><strong>Deprecated</strong>  In the past, this list has been used to load
+non-JavaScript modules into Node by compiling them on-demand.
+However, in practice, there are much better ways to do this, such as
+loading modules via some other Node program, or compiling them to
+JavaScript ahead of time.
+
+</p>
+<p>Since the Module system is locked, this feature will probably never go
+away.  However, it may have subtle bugs and complexities that are best
+left untouched.
+
+</p>
 <h2 id="globals_filename">__filename<span><a class="mark" href="#globals_filename" id=""/></span></h2>
 <!-- type=var -->
 
-<ul><li>{String}</li>
-</ul><p>The filename of the code being executed.  This is the resolved absolute path
+<ul>
+<li>{String}</li>
+</ul>
+<p>The filename of the code being executed.  This is the resolved absolute path
 of this code file.  For a main program this is not necessarily the same
 filename used in the command line.  The value inside a module is the path
 to that module file.
@@ -98,8 +128,10 @@ to that module file.
 <h2 id="globals_dirname">__dirname<span><a class="mark" href="#globals_dirname" id=""/></span></h2>
 <!-- type=var -->
 
-<ul><li>{String}</li>
-</ul><p>The name of the directory that the currently executing script resides in.
+<ul>
+<li>{String}</li>
+</ul>
+<p>The name of the directory that the currently executing script resides in.
 
 </p>
 <p>Example: running <code>node example.js</code> from <code>/Users/mjr</code>
@@ -114,10 +146,15 @@ to that module file.
 <h2 id="globals_module">module<span><a class="mark" href="#globals_module" id=""/></span></h2>
 <!-- type=var -->
 
-<ul><li>{Object}</li>
-</ul><p>A reference to the current module. In particular
-<code>module.exports</code> is the same as the <code>exports</code> object.
-<code>module</code> isn't actually a global but rather local to each module.
+<ul>
+<li>{Object}</li>
+</ul>
+<p>A reference to the current module. In particular
+<code>module.exports</code> is used for defining what a module exports and makes
+available through <code>require()</code>.
+
+</p>
+<p><code>module</code> isn't actually a global but rather local to each module.
 
 </p>
 <p>See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/modules.html', true)">module system documentation</a> for more information.
@@ -126,10 +163,12 @@ to that module file.
 <h2 id="globals_exports">exports<span><a class="mark" href="#globals_exports" id=""/></span></h2>
 <!-- type=var -->
 
-<p>An object which is shared between all instances of the current module and
-made accessible through <code>require()</code>.
-<code>exports</code> is the same as the <code>module.exports</code> object.
-<code>exports</code> isn't actually a global but rather local to each module.
+<p>A reference to the <code>module.exports</code> that is shorter to type.
+See <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/modules.html', true)">module system documentation</a> for details on when to use <code>exports</code> and
+when to use <code>module.exports</code>.
+
+</p>
+<p><code>exports</code> isn't actually a global but rather local to each module.
 
 </p>
 <p>See the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/modules.html', true)">module system documentation</a> for more information.
@@ -186,4 +225,9 @@ will not execute.
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

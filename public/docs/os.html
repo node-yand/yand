@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-os">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-os">
     
     <div id="content" class="clearfix">
         
@@ -8,17 +10,22 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="os_os">os<span><a class="mark" href="#os_os" id=""/></span></h1>
-<pre><code>Stability: 4 - API Frozen</code></pre>
-<p>Provides a few basic operating-system related utility functions.
+<pre class="api_stability_4">Stability: 4 - API Frozen</pre><p>Provides a few basic operating-system related utility functions.
 
 </p>
 <p>Use <code>require('os')</code> to access this module.
 
 </p>
-<h2 id="os_os_tmpdir">os.tmpDir()<span><a class="mark" href="#os_os_tmpdir" id=""/></span></h2>
+<h2 id="os_os_tmpdir">os.tmpdir()<span><a class="mark" href="#os_os_tmpdir" id=""/></span></h2>
 <p>Returns the operating system's default directory for temp files.
+
+</p>
+<h2 id="os_os_endianness">os.endianness()<span><a class="mark" href="#os_os_endianness" id=""/></span></h2>
+<p>Returns the endianness of the CPU. Possible values are <code>"BE"</code> or <code>"LE"</code>.
 
 </p>
 <h2 id="os_os_hostname">os.hostname()<span><a class="mark" href="#os_os_hostname" id=""/></span></h2>
@@ -49,6 +56,16 @@
 <p>Returns an array containing the 1, 5, and 15 minute load averages.
 
 </p>
+<p>The load average is a measure of system activity, calculated by the operating
+system and expressed as a fractional number.  As a rule of thumb, the load
+average should ideally be less than the number of logical CPUs in the system.
+
+</p>
+<p>The load average is a very UNIX-y concept; there is no real equivalent on
+Windows platforms.  That is why this function always returns <code>[0, 0, 0]</code> on
+Windows.
+
+</p>
 <h2 id="os_os_totalmem">os.totalmem()<span><a class="mark" href="#os_os_totalmem" id=""/></span></h2>
 <p>Returns the total amount of system memory in bytes.
 
@@ -58,7 +75,9 @@
 
 </p>
 <h2 id="os_os_cpus">os.cpus()<span><a class="mark" href="#os_os_cpus" id=""/></span></h2>
-<p>Returns an array of objects containing information about each CPU/core installed: model, speed (in MHz), and times (an object containing the number of CPU ticks spent in: user, nice, sys, idle, and irq).
+<p>Returns an array of objects containing information about each CPU/core
+installed: model, speed (in MHz), and times (an object containing the number of
+milliseconds the CPU/core spent in: user, nice, sys, idle, and irq).
 
 </p>
 <p>Example inspection of os.cpus:
@@ -152,4 +171,9 @@
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

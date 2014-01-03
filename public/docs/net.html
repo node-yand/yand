@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-net">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-net">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="net_net">net<span><a class="mark" href="#net_net" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<p>The <code>net</code> module provides you with an asynchronous network wrapper. It contains
+<pre class="api_stability_3">Stability: 3 - Stable</pre><p>The <code>net</code> module provides you with an asynchronous network wrapper. It contains
 methods for creating both servers and clients (called streams). You can include
 this module with <code>require('net');</code>
 
@@ -70,23 +73,29 @@ When the socket is established, the <a href="javascript:void(0);" onclick="javas
 <p>For TCP sockets, <code>options</code> argument should be an object which specifies:
 
 </p>
-<ul><li><p><code>port</code>: Port the client should connect to (Required).</p>
+<ul>
+<li><p><code>port</code>: Port the client should connect to (Required).</p>
 </li>
 <li><p><code>host</code>: Host the client should connect to. Defaults to <code>'localhost'</code>.</p>
 </li>
 <li><p><code>localAddress</code>: Local interface to bind to for network connections.</p>
 </li>
-</ul><p>For UNIX domain sockets, <code>options</code> argument should be an object which specifies:
+</ul>
+<p>For UNIX domain sockets, <code>options</code> argument should be an object which specifies:
 
 </p>
-<ul><li><code>path</code>: Path the client should connect to (Required).</li>
-</ul><p>Common options are:
+<ul>
+<li><code>path</code>: Path the client should connect to (Required).</li>
+</ul>
+<p>Common options are:
 
 </p>
-<ul><li><code>allowHalfOpen</code>: if <code>true</code>, the socket won't automatically send
+<ul>
+<li><code>allowHalfOpen</code>: if <code>true</code>, the socket won't automatically send
 a FIN packet when the other end of the socket sends a FIN packet.
 Defaults to <code>false</code>.  See <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/net.html#net_event_end', true)">'end'</a> event for more information.</li>
-</ul><p>The <code>connectListener</code> parameter will be added as an listener for the
+</ul>
+<p>The <code>connectListener</code> parameter will be added as an listener for the
 <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/net.html#net_event_connect', true)">'connect'</a> event.
 
 </p>
@@ -110,7 +119,7 @@ client.on('end', function() {
 changed to
 
 </p>
-<pre><code>var client = net.connect({path: '/tmp/echo.sock'},</code></pre>
+<pre><code>var client = net.connect({path: '/tmp/echo.sock'});</code></pre>
 <h2 id="net_net_connect_port_host_connectlistener">net.connect(port, [host], [connectListener])<span><a class="mark" href="#net_net_connect_port_host_connectlistener" id=""/></span></h2>
 <h2 id="net_net_createconnection_port_host_connectlistener">net.createConnection(port, [host], [connectListener])<span><a class="mark" href="#net_net_createconnection_port_host_connectlistener" id=""/></span></h2>
 <p>Creates a TCP connection to <code>port</code> on <code>host</code>. If <code>host</code> is omitted,
@@ -128,7 +137,6 @@ The <code>connectListener</code> parameter will be added as an listener for the
 </p>
 <h2 id="net_class_net_server">Class: net.Server<span><a class="mark" href="#net_class_net_server" id=""/></span></h2>
 <p>This class is used to create a TCP or UNIX server.
-A server is a <code>net.Socket</code> that can listen for new incoming connections.
 
 </p>
 <h3 id="net_server_listen_port_host_backlog_callback">server.listen(port, [host], [backlog], [callback])<span><a class="mark" href="#net_server_listen_port_host_backlog_callback" id=""/></span></h3>
@@ -176,7 +184,8 @@ will be added as an listener for the <a href="javascript:void(0);" onclick="java
 
 </p>
 <h3 id="net_server_listen_handle_callback">server.listen(handle, [callback])<span><a class="mark" href="#net_server_listen_handle_callback" id=""/></span></h3>
-<div class="signature"><ul><li><code>handle</code> <span class="type">Object</span></li>
+<div class="signature"><ul>
+<li><code>handle</code> <span class="type">Object</span></li>
 <li><code>callback</code> <span class="type">Function</span></li>
 </ul></div>
 <p>The <code>handle</code> object can be set to either a server or socket (anything
@@ -228,6 +237,18 @@ server.listen(function() {
 <p>Don't call <code>server.address()</code> until the <code>'listening'</code> event has been emitted.
 
 </p>
+<h3 id="net_server_unref">server.unref()<span><a class="mark" href="#net_server_unref" id=""/></span></h3>
+<p>Calling <code>unref</code> on a server will allow the program to exit if this is the only
+active server in the event system. If the server is already <code>unref</code>d calling
+<code>unref</code> again will have no effect.
+
+</p>
+<h3 id="net_server_ref">server.ref()<span><a class="mark" href="#net_server_ref" id=""/></span></h3>
+<p>Opposite of <code>unref</code>, calling <code>ref</code> on a previously <code>unref</code>d server will <em>not</em>
+let the program exit if it's the only server left (the default behavior). If
+the server is <code>ref</code>d calling <code>ref</code> again will have no effect.
+
+</p>
 <h3 id="net_server_maxconnections">server.maxConnections<span><a class="mark" href="#net_server_maxconnections" id=""/></span></h3>
 <p>Set this property to reject connections when the server's connection count gets
 high.
@@ -238,13 +259,24 @@ with <code>child_process.fork()</code>.
 
 </p>
 <h3 id="net_server_connections">server.connections<span><a class="mark" href="#net_server_connections" id=""/></span></h3>
-<p>The number of concurrent connections on the server.
+<p>This function is <strong>deprecated</strong>; please use [server.getConnections()][] instead.
+The number of concurrent connections on the server.
 
 </p>
-<p>This becomes <code>null</code> when sending a socket to a child with <code>child_process.fork()</code>.
+<p>This becomes <code>null</code> when sending a socket to a child with
+<code>child_process.fork()</code>. To poll forks and get current number of active
+connections use asynchronous <code>server.getConnections</code> instead.
 
 </p>
 <p><code>net.Server</code> is an <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/events.html#events_class_events_eventemitter', true)">EventEmitter</a> with the following events:
+
+</p>
+<h3 id="net_server_getconnections_callback">server.getConnections(callback)<span><a class="mark" href="#net_server_getconnections_callback" id=""/></span></h3>
+<p>Asynchronously get the number of concurrent connections on the server. Works
+when sockets were sent to forks.
+
+</p>
+<p>Callback should take two arguments <code>err</code> and <code>count</code>.
 
 </p>
 <h3 id="net_event_listening">Event: 'listening'<span><a class="mark" href="#net_event_listening" id=""/></span></h3>
@@ -252,7 +284,8 @@ with <code>child_process.fork()</code>.
 
 </p>
 <h3 id="net_event_connection">Event: 'connection'<span><a class="mark" href="#net_event_connection" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Socket object</span> The connection object</li>
+<div class="signature"><ul>
+<li><span class="type">Socket object</span> The connection object</li>
 </ul></div>
 <p>Emitted when a new connection is made. <code>socket</code> is an instance of
 <code>net.Socket</code>.
@@ -264,7 +297,8 @@ event is not emitted until all connections are ended.
 
 </p>
 <h3 id="net_event_error">Event: 'error'<span><a class="mark" href="#net_event_error" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Error Object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Error Object</span></li>
 </ul></div>
 <p>Emitted when an error occurs.  The <code>'close'</code> event will be called directly
 following this event.  See example in discussion of <code>server.listen</code>.
@@ -285,11 +319,13 @@ and passed to the user through the <code>'connection'</code> event of a server.
 
 </p>
 <pre><code>{ fd: null
-  type: null
-  allowHalfOpen: false
+  allowHalfOpen: false,
+  readable: false,
+  writable: false
 }</code></pre>
-<p><code>fd</code> allows you to specify the existing file descriptor of socket. <code>type</code>
-specified underlying protocol. It can be <code>'tcp4'</code>, <code>'tcp6'</code>, or <code>'unix'</code>.
+<p><code>fd</code> allows you to specify the existing file descriptor of socket.
+Set <code>readable</code> and/or <code>writable</code> to <code>true</code> to allow reads and/or writes on this
+socket (NOTE: Works only when <code>fd</code> is passed).
 About <code>allowHalfOpen</code>, refer to <code>createServer()</code> and <code>'end'</code> event.
 
 </p>
@@ -302,8 +338,7 @@ opened as a unix socket to that path.
 
 </p>
 <p>Normally this method is not needed, as <code>net.createConnection</code> opens the
-socket. Use this only if you are implementing a custom Socket or if a
-Socket is closed and you want to reuse it to connect to another server.
+socket. Use this only if you are implementing a custom Socket.
 
 </p>
 <p>This function is asynchronous. When the <a href="javascript:void(0);" onclick="javascript:pageLoad('/docs/net.html#net_event_connect', true)">'connect'</a> event is emitted the
@@ -422,6 +457,18 @@ three properties, e.g.
 <code>{ port: 12346, family: 'IPv4', address: '127.0.0.1' }</code>
 
 </p>
+<h3 id="net_socket_unref">socket.unref()<span><a class="mark" href="#net_socket_unref" id=""/></span></h3>
+<p>Calling <code>unref</code> on a socket will allow the program to exit if this is the only
+active socket in the event system. If the socket is already <code>unref</code>d calling
+<code>unref</code> again will have no effect.
+
+</p>
+<h3 id="net_socket_ref">socket.ref()<span><a class="mark" href="#net_socket_ref" id=""/></span></h3>
+<p>Opposite of <code>unref</code>, calling <code>ref</code> on a previously <code>unref</code>d socket will <em>not</em>
+let the program exit if it's the only socket left (the default behavior). If
+the socket is <code>ref</code>d calling <code>ref</code> again will have no effect.
+
+</p>
 <h3 id="net_socket_remoteaddress">socket.remoteAddress<span><a class="mark" href="#net_socket_remoteaddress" id=""/></span></h3>
 <p>The string representation of the remote IP address. For example,
 <code>'74.125.127.100'</code> or <code>'2001:4860:a005::68'</code>.
@@ -429,6 +476,17 @@ three properties, e.g.
 </p>
 <h3 id="net_socket_remoteport">socket.remotePort<span><a class="mark" href="#net_socket_remoteport" id=""/></span></h3>
 <p>The numeric representation of the remote port. For example,
+<code>80</code> or <code>21</code>.
+
+</p>
+<h3 id="net_socket_localaddress">socket.localAddress<span><a class="mark" href="#net_socket_localaddress" id=""/></span></h3>
+<p>The string representation of the local IP address the remote client is
+connecting on. For example, if you are listening on <code>'0.0.0.0'</code> and the
+client connects on <code>'192.168.1.1'</code>, the value would be <code>'192.168.1.1'</code>.
+
+</p>
+<h3 id="net_socket_localport">socket.localPort<span><a class="mark" href="#net_socket_localport" id=""/></span></h3>
+<p>The numeric representation of the local port. For example,
 <code>80</code> or <code>21</code>.
 
 </p>
@@ -450,7 +508,8 @@ See <code>connect()</code>.
 
 </p>
 <h3 id="net_event_data">Event: 'data'<span><a class="mark" href="#net_event_data" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Buffer object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Buffer object</span></li>
 </ul></div>
 <p>Emitted when data is received.  The argument <code>data</code> will be a <code>Buffer</code> or
 <code>String</code>.  Encoding of data is set by <code>socket.setEncoding()</code>.
@@ -490,14 +549,16 @@ the socket has been idle. The user must manually close the connection.
 
 </p>
 <h3 id="net_event_error_1">Event: 'error'<span><a class="mark" href="#net_event_error_1" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Error object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Error object</span></li>
 </ul></div>
 <p>Emitted when an error occurs.  The <code>'close'</code> event will be called directly
 following this event.
 
 </p>
 <h3 id="net_event_close_1">Event: 'close'<span><a class="mark" href="#net_event_close_1" id=""/></span></h3>
-<div class="signature"><ul><li><code>had_error</code> <span class="type">Boolean</span> true if the socket had a transmission error</li>
+<div class="signature"><ul>
+<li><code>had_error</code> <span class="type">Boolean</span> true if the socket had a transmission error</li>
 </ul></div>
 <p>Emitted once the socket is fully closed. The argument <code>had_error</code> is a boolean
 which says if the socket was closed due to a transmission error.
@@ -524,4 +585,9 @@ returns 4 for IP version 4 addresses, and returns 6 for IP version 6 addresses.
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-dns">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-dns">
     
     <div id="content" class="clearfix">
         
@@ -8,15 +10,16 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="dns_dns">DNS<span><a class="mark" href="#dns_dns" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<p>Use <code>require('dns')</code> to access this module. All methods in the dns module
+<pre class="api_stability_3">Stability: 3 - Stable</pre><p>Use <code>require('dns')</code> to access this module. All methods in the dns module
 use C-Ares except for <code>dns.lookup</code> which uses <code>getaddrinfo(3)</code> in a thread
 pool. C-Ares is much faster than <code>getaddrinfo</code> but the system resolver is
-more constant with how other programs operate. When a user does
+more consistent with how other programs operate. When a user does
 <code>net.connect(80, 'google.com')</code> or <code>http.get({ host: 'google.com' })</code> the
-<code>dns.lookup</code> method is used. Users who need to do a large number of look ups
+<code>dns.lookup</code> method is used. Users who need to do a large number of lookups
 quickly should use the methods that go through C-Ares.
 
 </p>
@@ -138,7 +141,8 @@ one of the error codes listed below.
 <p>Each DNS query can return one of the following error codes:
 
 </p>
-<ul><li><code>dns.NODATA</code>: DNS server returned answer with no data.</li>
+<ul>
+<li><code>dns.NODATA</code>: DNS server returned answer with no data.</li>
 <li><code>dns.FORMERR</code>: DNS server claims query was misformatted.</li>
 <li><code>dns.SERVFAIL</code>: DNS server returned general failure.</li>
 <li><code>dns.NOTFOUND</code>: Domain name not found.</li>
@@ -162,9 +166,16 @@ one of the error codes listed below.
 <li><code>dns.LOADIPHLPAPI</code>: Error loading iphlpapi.dll.</li>
 <li><code>dns.ADDRGETNETWORKPARAMS</code>: Could not find GetNetworkParams function.</li>
 <li><code>dns.CANCELLED</code>: DNS query cancelled.</li>
-</ul></div>
+</ul>
+
+          </div>
         </div>
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

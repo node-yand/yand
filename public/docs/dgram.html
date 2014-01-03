@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-dgram">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-dgram">
     
     <div id="content" class="clearfix">
         
@@ -8,16 +10,32 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="dgram_udp_datagram_sockets">UDP / Datagram Sockets<span><a class="mark" href="#dgram_udp_datagram_sockets" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<!-- name=dgram -->
+<pre class="api_stability_3">Stability: 3 - Stable</pre><!-- name=dgram -->
 
 <p>Datagram sockets are available through <code>require('dgram')</code>.
 
 </p>
+<p>Important note: the behavior of <code>dgram.Socket#bind()</code> has changed in v0.10
+and is always asynchronous now.  If you have code that looks like this:
+
+</p>
+<pre><code>var s = dgram.createSocket('udp4');
+s.bind(1234);
+s.addMembership('224.0.0.114');</code></pre>
+<p>You have to change it to this:
+
+</p>
+<pre><code>var s = dgram.createSocket('udp4');
+s.bind(1234, function() {
+  s.addMembership('224.0.0.114');
+});</code></pre>
 <h2 id="dgram_dgram_createsocket_type_callback">dgram.createSocket(type, [callback])<span><a class="mark" href="#dgram_dgram_createsocket_type_callback" id=""/></span></h2>
-<div class="signature"><ul><li><code>type</code> String. Either 'udp4' or 'udp6'</li>
+<div class="signature"><ul>
+<li><code>type</code> String. Either 'udp4' or 'udp6'</li>
 <li><code>callback</code> Function. Attached as a listener to <code>message</code> events.
 Optional</li>
 <li>Returns: Socket object</li>
@@ -35,13 +53,14 @@ both <code>udp4</code> and <code>udp6</code> sockets). You can then retrieve the
 with <code>socket.address().address</code> and <code>socket.address().port</code>.
 
 </p>
-<h2 id="dgram_class_socket">Class: Socket<span><a class="mark" href="#dgram_class_socket" id=""/></span></h2>
+<h2 id="dgram_class_dgram_socket">Class: dgram.Socket<span><a class="mark" href="#dgram_class_dgram_socket" id=""/></span></h2>
 <p>The dgram Socket class encapsulates the datagram functionality.  It
 should be created via <code>dgram.createSocket(type, [callback])</code>.
 
 </p>
 <h3 id="dgram_event_message">Event: 'message'<span><a class="mark" href="#dgram_event_message" id=""/></span></h3>
-<div class="signature"><ul><li><code>msg</code> Buffer object. The message</li>
+<div class="signature"><ul>
+<li><code>msg</code> Buffer object. The message</li>
 <li><code>rinfo</code> Object. Remote address information</li>
 </ul></div>
 <p>Emitted when a new datagram is available on a socket.  <code>msg</code> is a <code>Buffer</code> and <code>rinfo</code> is
@@ -59,31 +78,39 @@ on this socket.
 
 </p>
 <h3 id="dgram_event_error">Event: 'error'<span><a class="mark" href="#dgram_event_error" id=""/></span></h3>
-<div class="signature"><ul><li><code>exception</code> Error object</li>
+<div class="signature"><ul>
+<li><code>exception</code> Error object</li>
 </ul></div>
 <p>Emitted when an error occurs.
 
 </p>
-<h3 id="dgram_dgram_send_buf_offset_length_port_address_callback">dgram.send(buf, offset, length, port, address, [callback])<span><a class="mark" href="#dgram_dgram_send_buf_offset_length_port_address_callback" id=""/></span></h3>
-<div class="signature"><ul><li><code>buf</code> Buffer object.  Message to be sent</li>
+<h3 id="dgram_socket_send_buf_offset_length_port_address_callback">socket.send(buf, offset, length, port, address, [callback])<span><a class="mark" href="#dgram_socket_send_buf_offset_length_port_address_callback" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>buf</code> Buffer object.  Message to be sent</li>
 <li><code>offset</code> Integer. Offset in the buffer where the message starts.</li>
 <li><code>length</code> Integer. Number of bytes in the message.</li>
-<li><code>port</code> Integer. destination port</li>
-<li><code>address</code> String. destination IP</li>
-<li><code>callback</code> Function. Callback when message is done being delivered.
-Optional.</li>
+<li><code>port</code> Integer. Destination port.</li>
+<li><code>address</code> String. Destination hostname or IP address.</li>
+<li><code>callback</code> Function. Called when the message has been sent. Optional.</li>
 </ul></div>
-<p>For UDP sockets, the destination port and IP address must be specified.  A string
-may be supplied for the <code>address</code> parameter, and it will be resolved with DNS.  An
-optional callback may be specified to detect any DNS errors and when <code>buf</code> may be
-re-used.  Note that DNS lookups will delay the time that a send takes place, at
-least until the next tick.  The only way to know for sure that a send has taken place
-is to use the callback.
+<p>For UDP sockets, the destination port and address must be specified.  A string
+may be supplied for the <code>address</code> parameter, and it will be resolved with DNS.
 
 </p>
-<p>If the socket has not been previously bound with a call to <code>bind</code>, it's
-assigned a random port number and bound to the "all interfaces" address
-(0.0.0.0 for <code>udp4</code> sockets, ::0 for <code>udp6</code> sockets).
+<p>If the address is omitted or is an empty string, <code>'0.0.0.0'</code> or <code>'::0'</code> is used
+instead.  Depending on the network configuration, those defaults may or may not
+work; it's best to be explicit about the destination address.
+
+</p>
+<p>If the socket has not been previously bound with a call to <code>bind</code>, it gets
+assigned a random port number and is bound to the "all interfaces" address
+(<code>'0.0.0.0'</code> for <code>udp4</code> sockets, <code>'::0'</code> for <code>udp6</code> sockets.)
+
+</p>
+<p>An optional callback may be specified to detect DNS errors or for determining
+when it's safe to reuse the <code>buf</code> object.  Note that DNS lookups delay the time
+to send for at least one tick.  The only way to know for sure that the datagram
+has been sent is by using a callback.
 
 </p>
 <p>Example of sending a UDP packet to a random port on <code>localhost</code>;
@@ -102,7 +129,8 @@ client.send(message, 0, message.length, 41234, "localhost", function(err, bytes)
 and on the <code>Payload Length</code> field size.
 
 </p>
-<ul><li><p>The <code>Payload Length</code> field is <code>16 bits</code> wide, which means that a normal payload
+<ul>
+<li><p>The <code>Payload Length</code> field is <code>16 bits</code> wide, which means that a normal payload
 cannot be larger than 64K octets including internet header and data
 (65,507 bytes = 65,535 − 8 bytes UDP header − 20 bytes IP header);
 this is generally true for loopback interfaces, but such long datagrams
@@ -117,18 +145,34 @@ fragment reassembly buffer size is <code>1500</code> octets.
 The value of <code>68</code> octets is very small, since most current link layer technologies have
 a minimum <code>MTU</code> of <code>1500</code> (like Ethernet).</p>
 </li>
-</ul><p>Note that it's impossible to know in advance the MTU of each link through which
+</ul>
+<p>Note that it's impossible to know in advance the MTU of each link through which
 a packet might travel, and that generally sending a datagram greater than
 the (receiver) <code>MTU</code> won't work (the packet gets silently dropped, without
 informing the source that the data did not reach its intended recipient).
 
 </p>
-<h3 id="dgram_dgram_bind_port_address">dgram.bind(port, [address])<span><a class="mark" href="#dgram_dgram_bind_port_address" id=""/></span></h3>
-<div class="signature"><ul><li><code>port</code> Integer</li>
+<h3 id="dgram_socket_bind_port_address_callback">socket.bind(port, [address], [callback])<span><a class="mark" href="#dgram_socket_bind_port_address_callback" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>port</code> Integer</li>
 <li><code>address</code> String, Optional</li>
+<li><code>callback</code> Function with no parameters, Optional. Callback when
+binding is done.</li>
 </ul></div>
-<p>For UDP sockets, listen for datagrams on a named <code>port</code> and optional <code>address</code>. If
-<code>address</code> is not specified, the OS will try to listen on all addresses.
+<p>For UDP sockets, listen for datagrams on a named <code>port</code> and optional
+<code>address</code>. If <code>address</code> is not specified, the OS will try to listen on
+all addresses.  After binding is done, a "listening" event is emitted
+and the <code>callback</code>(if specified) is called. Specifying both a
+"listening" event listener and <code>callback</code> is not harmful but not very
+useful.
+
+</p>
+<p>A bound datagram socket keeps the node process running to receive
+datagrams.
+
+</p>
+<p>If binding fails, an "error" event is generated. In rare case (e.g.
+binding a closed socket), an <code>Error</code> may be thrown by this method.
 
 </p>
 <p>Example of a UDP server listening on port 41234:
@@ -137,6 +181,11 @@ informing the source that the data did not reach its intended recipient).
 <pre><code>var dgram = require("dgram");
 
 var server = dgram.createSocket("udp4");
+
+server.on("error", function (err) {
+  console.log("server error:\n" + err.stack);
+  server.close();
+});
 
 server.on("message", function (msg, rinfo) {
   console.log("server got: " + msg + " from " +
@@ -151,24 +200,26 @@ server.on("listening", function () {
 
 server.bind(41234);
 // server listening 0.0.0.0:41234</code></pre>
-<h3 id="dgram_dgram_close">dgram.close()<span><a class="mark" href="#dgram_dgram_close" id=""/></span></h3>
+<h3 id="dgram_socket_close">socket.close()<span><a class="mark" href="#dgram_socket_close" id=""/></span></h3>
 <p>Close the underlying socket and stop listening for data on it.
 
 </p>
-<h3 id="dgram_dgram_address">dgram.address()<span><a class="mark" href="#dgram_dgram_address" id=""/></span></h3>
+<h3 id="dgram_socket_address">socket.address()<span><a class="mark" href="#dgram_socket_address" id=""/></span></h3>
 <p>Returns an object containing the address information for a socket.  For UDP sockets,
 this object will contain <code>address</code> , <code>family</code> and <code>port</code>.
 
 </p>
-<h3 id="dgram_dgram_setbroadcast_flag">dgram.setBroadcast(flag)<span><a class="mark" href="#dgram_dgram_setbroadcast_flag" id=""/></span></h3>
-<div class="signature"><ul><li><code>flag</code> Boolean</li>
+<h3 id="dgram_socket_setbroadcast_flag">socket.setBroadcast(flag)<span><a class="mark" href="#dgram_socket_setbroadcast_flag" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>flag</code> Boolean</li>
 </ul></div>
 <p>Sets or clears the <code>SO_BROADCAST</code> socket option.  When this option is set, UDP packets
 may be sent to a local interface's broadcast address.
 
 </p>
-<h3 id="dgram_dgram_setttl_ttl">dgram.setTTL(ttl)<span><a class="mark" href="#dgram_dgram_setttl_ttl" id=""/></span></h3>
-<div class="signature"><ul><li><code>ttl</code> Integer</li>
+<h3 id="dgram_socket_setttl_ttl">socket.setTTL(ttl)<span><a class="mark" href="#dgram_socket_setttl_ttl" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>ttl</code> Integer</li>
 </ul></div>
 <p>Sets the <code>IP_TTL</code> socket option.  TTL stands for "Time to Live," but in this context it
 specifies the number of IP hops that a packet is allowed to go through.  Each router or
@@ -181,8 +232,9 @@ probes or when multicasting.
 systems is 64.
 
 </p>
-<h3 id="dgram_dgram_setmulticastttl_ttl">dgram.setMulticastTTL(ttl)<span><a class="mark" href="#dgram_dgram_setmulticastttl_ttl" id=""/></span></h3>
-<div class="signature"><ul><li><code>ttl</code> Integer</li>
+<h3 id="dgram_socket_setmulticastttl_ttl">socket.setMulticastTTL(ttl)<span><a class="mark" href="#dgram_socket_setmulticastttl_ttl" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>ttl</code> Integer</li>
 </ul></div>
 <p>Sets the <code>IP_MULTICAST_TTL</code> socket option.  TTL stands for "Time to Live," but in this
 context it specifies the number of IP hops that a packet is allowed to go through,
@@ -194,15 +246,17 @@ decrements the TTL. If the TTL is decremented to 0 by a router, it will not be f
 systems is 1.
 
 </p>
-<h3 id="dgram_dgram_setmulticastloopback_flag">dgram.setMulticastLoopback(flag)<span><a class="mark" href="#dgram_dgram_setmulticastloopback_flag" id=""/></span></h3>
-<div class="signature"><ul><li><code>flag</code> Boolean</li>
+<h3 id="dgram_socket_setmulticastloopback_flag">socket.setMulticastLoopback(flag)<span><a class="mark" href="#dgram_socket_setmulticastloopback_flag" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>flag</code> Boolean</li>
 </ul></div>
 <p>Sets or clears the <code>IP_MULTICAST_LOOP</code> socket option.  When this option is set, multicast
 packets will also be received on the local interface.
 
 </p>
-<h3 id="dgram_dgram_addmembership_multicastaddress_multicastinterface">dgram.addMembership(multicastAddress, [multicastInterface])<span><a class="mark" href="#dgram_dgram_addmembership_multicastaddress_multicastinterface" id=""/></span></h3>
-<div class="signature"><ul><li><code>multicastAddress</code> String</li>
+<h3 id="dgram_socket_addmembership_multicastaddress_multicastinterface">socket.addMembership(multicastAddress, [multicastInterface])<span><a class="mark" href="#dgram_socket_addmembership_multicastaddress_multicastinterface" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>multicastAddress</code> String</li>
 <li><code>multicastInterface</code> String, Optional</li>
 </ul></div>
 <p>Tells the kernel to join a multicast group with <code>IP_ADD_MEMBERSHIP</code> socket option.
@@ -212,8 +266,9 @@ packets will also be received on the local interface.
 interfaces.
 
 </p>
-<h3 id="dgram_dgram_dropmembership_multicastaddress_multicastinterface">dgram.dropMembership(multicastAddress, [multicastInterface])<span><a class="mark" href="#dgram_dgram_dropmembership_multicastaddress_multicastinterface" id=""/></span></h3>
-<div class="signature"><ul><li><code>multicastAddress</code> String</li>
+<h3 id="dgram_socket_dropmembership_multicastaddress_multicastinterface">socket.dropMembership(multicastAddress, [multicastInterface])<span><a class="mark" href="#dgram_socket_dropmembership_multicastaddress_multicastinterface" id=""/></span></h3>
+<div class="signature"><ul>
+<li><code>multicastAddress</code> String</li>
 <li><code>multicastInterface</code> String, Optional</li>
 </ul></div>
 <p>Opposite of <code>addMembership</code> - tells the kernel to leave a multicast group with
@@ -224,6 +279,18 @@ this.
 </p>
 <p>If <code>multicastInterface</code> is not specified, the OS will try to drop membership to all valid
 interfaces.
+
+</p>
+<h3 id="dgram_socket_unref">socket.unref()<span><a class="mark" href="#dgram_socket_unref" id=""/></span></h3>
+<p>Calling <code>unref</code> on a socket will allow the program to exit if this is the only
+active socket in the event system. If the socket is already <code>unref</code>d calling
+<code>unref</code> again will have no effect.
+
+</p>
+<h3 id="dgram_socket_ref">socket.ref()<span><a class="mark" href="#dgram_socket_ref" id=""/></span></h3>
+<p>Opposite of <code>unref</code>, calling <code>ref</code> on a previously <code>unref</code>d socket will <em>not</em>
+let the program exit if it's the only socket left (the default behavior). If
+the socket is <code>ref</code>d calling <code>ref</code> again will have no effect.
 </p>
 
           </div>
@@ -231,4 +298,9 @@ interfaces.
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

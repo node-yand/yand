@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-url">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-url">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="url_url">URL<span><a class="mark" href="#url_url" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<p>This module has utilities for URL resolution and parsing.
+<pre class="api_stability_3">Stability: 3 - Stable</pre><p>This module has utilities for URL resolution and parsing.
 Call <code>require('url')</code> to use it.
 
 </p>
@@ -23,7 +26,8 @@ string will not be in the parsed object. Examples are shown for the URL
 <p><code>'http://user:pass@host.com:8080/p/a/t/h?query=string#hash'</code>
 
 </p>
-<ul><li><p><code>href</code>: The full URL that was originally parsed. Both the protocol and host are lowercased.</p>
+<ul>
+<li><p><code>href</code>: The full URL that was originally parsed. Both the protocol and host are lowercased.</p>
 <p>  Example: <code>'http://user:pass@host.com:8080/p/a/t/h?query=string#hash'</code></p>
 </li>
 <li><p><code>protocol</code>: The request protocol, lowercased.</p>
@@ -60,7 +64,8 @@ querystring-parsed object.</p>
 <li><p><code>hash</code>: The 'fragment' portion of the URL including the pound-sign.</p>
 <p>  Example: <code>'#hash'</code></p>
 </li>
-</ul><p>The following methods are provided by the URL module:
+</ul>
+<p>The following methods are provided by the URL module:
 
 </p>
 <h2 id="url_url_parse_urlstr_parsequerystring_slashesdenotehost">url.parse(urlStr, [parseQueryString], [slashesDenoteHost])<span><a class="mark" href="#url_url_parse_urlstr_parsequerystring_slashesdenotehost" id=""/></span></h2>
@@ -81,12 +86,15 @@ Defaults to <code>false</code>.
 <p>Take a parsed URL object, and return a formatted URL string.
 
 </p>
-<ul><li><code>href</code> will be ignored.</li>
-<li><code>protocol</code>is treated the same with or without the trailing <code>:</code> (colon).<ul><li>The protocols <code>http</code>, <code>https</code>, <code>ftp</code>, <code>gopher</code>, <code>file</code> will be
+<ul>
+<li><code>href</code> will be ignored.</li>
+<li><code>protocol</code>is treated the same with or without the trailing <code>:</code> (colon).<ul>
+<li>The protocols <code>http</code>, <code>https</code>, <code>ftp</code>, <code>gopher</code>, <code>file</code> will be
 postfixed with <code>://</code> (colon-slash-slash).</li>
 <li>All other protocols <code>mailto</code>, <code>xmpp</code>, <code>aim</code>, <code>sftp</code>, <code>foo</code>, etc will
 be postfixed with <code>:</code> (colon)</li>
-</ul></li>
+</ul>
+</li>
 <li><code>auth</code> will be used if present.</li>
 <li><code>hostname</code> will only be used if <code>host</code> is absent.</li>
 <li><code>port</code> will only be used if <code>host</code> is absent.</li>
@@ -96,14 +104,24 @@ be postfixed with <code>:</code> (colon)</li>
 <li><code>query</code> (object; see <code>querystring</code>) will only be used if <code>search</code> is absent.</li>
 <li><code>search</code> is treated the same with or without the leading <code>?</code> (question mark)</li>
 <li><code>hash</code> is treated the same with or without the leading <code>#</code> (pound sign, anchor)</li>
-</ul><h2 id="url_url_resolve_from_to">url.resolve(from, to)<span><a class="mark" href="#url_url_resolve_from_to" id=""/></span></h2>
+</ul>
+<h2 id="url_url_resolve_from_to">url.resolve(from, to)<span><a class="mark" href="#url_url_resolve_from_to" id=""/></span></h2>
 <p>Take a base URL, and a href URL, and resolve them as a browser would for
-an anchor tag.
+an anchor tag.  Examples:
+
 </p>
+<pre><code>url.resolve('/one/two/three', 'four')         // '/one/two/four'
+url.resolve('http://example.com/', '/one')    // 'http://example.com/one'
+url.resolve('http://example.com/one', '/two') // 'http://example.com/two'</code></pre>
 
           </div>
         </div>
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

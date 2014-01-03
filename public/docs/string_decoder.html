@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-string_decoder">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-string_decoder">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="string_decoder_stringdecoder">StringDecoder<span><a class="mark" href="#string_decoder_stringdecoder" id=""/></span></h1>
-<pre><code>Stability: 3 - Stable</code></pre>
-<p>To use this module, do <code>require('string_decoder')</code>. StringDecoder decodes a
+<pre class="api_stability_3">Stability: 3 - Stable</pre><p>To use this module, do <code>require('string_decoder')</code>. StringDecoder decodes a
 buffer to a string. It is a simple interface to <code>buffer.toString()</code> but provides
 additional support for utf8.
 
@@ -28,12 +31,22 @@ console.log(decoder.write(euro));</code></pre>
 <p>Accepts a single argument, <code>encoding</code> which defaults to <code>utf8</code>.
 
 </p>
-<h3 id="string_decoder_stringdecoder_write_buffer">StringDecoder.write(buffer)<span><a class="mark" href="#string_decoder_stringdecoder_write_buffer" id=""/></span></h3>
-<p>Returns a decoded string.</p>
+<h3 id="string_decoder_decoder_write_buffer">decoder.write(buffer)<span><a class="mark" href="#string_decoder_decoder_write_buffer" id=""/></span></h3>
+<p>Returns a decoded string.
+
+</p>
+<h3 id="string_decoder_decoder_end">decoder.end()<span><a class="mark" href="#string_decoder_decoder_end" id=""/></span></h3>
+<p>Returns any trailing bytes that were left in the buffer.
+</p>
 
           </div>
         </div>
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE html>
-<html lang="en"><body class="alt apidoc" id="api-section-modules">
+<html lang="en">
+
+<body class="alt apidoc" id="api-section-modules">
     
     <div id="content" class="clearfix">
         
@@ -8,10 +10,11 @@
         <div id="column1" class="interior">
           
 
+          
+
           <div id="apicontent">
             <h1 id="modules_modules">Modules<span><a class="mark" href="#modules_modules" id=""/></span></h1>
-<pre><code>Stability: 5 - Locked</code></pre>
-<!--name=module-->
+<pre class="api_stability_5">Stability: 5 - Locked</pre><!--name=module-->
 
 <p>Node has a simple module loading system.  In Node, files and modules are in
 one-to-one correspondence.  As an example, <code>foo.js</code> loads the module
@@ -37,15 +40,37 @@ exports.circumference = function (r) {
   return 2 * PI * r;
 };</code></pre>
 <p>The module <code>circle.js</code> has exported the functions <code>area()</code> and
-<code>circumference()</code>.  To export an object, add to the special <code>exports</code>
-object.
+<code>circumference()</code>.  To add functions and objects to the root of your module,
+you can add them to the special <code>exports</code> object.
 
 </p>
-<p>Variables
-local to the module will be private. In this example the variable <code>PI</code> is
-private to <code>circle.js</code>.
+<p>Variables local to the module will be private, as though the module was wrapped
+in a function. In this example the variable <code>PI</code> is private to <code>circle.js</code>.
 
 </p>
+<p>If you want the root of your module's export to be a function (such as a
+constructor) or if you want to export a complete object in one assignment
+instead of building it one property at a time, assign it to <code>module.exports</code>
+instead of <code>exports</code>.
+
+</p>
+<p>Below, <code>bar.js</code> makes use of the <code>square</code> module, which exports a constructor:
+
+</p>
+<pre><code>var square = require('./square.js');
+var mySquare = square(2);
+console.log('The area of my square is ' + mySquare.area());</code></pre>
+<p>The <code>square</code> module is defined in <code>square.js</code>:
+
+</p>
+<pre><code>// assigning to exports will not modify module, must use module.exports
+module.exports = function(width) {
+  return {
+    area: function() {
+      return width * width;
+    }
+  };
+}</code></pre>
 <p>The module system is implemented in the <code>require("module")</code> module.
 
 </p>
@@ -87,7 +112,7 @@ console.log('in main, a.done=%j, b.done=%j', a.done, b.done);</code></pre>
 <p>When <code>main.js</code> loads <code>a.js</code>, then <code>a.js</code> in turn loads <code>b.js</code>.  At that
 point, <code>b.js</code> tries to load <code>a.js</code>.  In order to prevent an infinite
 loop an <strong>unfinished copy</strong> of the <code>a.js</code> exports object is returned to the
-<code>b.js</code> module.  <code>b.js</code> then finishes loading, and its exports object is
+<code>b.js</code> module.  <code>b.js</code> then finishes loading, and its <code>exports</code> object is
 provided to the <code>a.js</code> module.
 
 </p>
@@ -171,11 +196,13 @@ on, until the root of the tree is reached.
 this order:
 
 </p>
-<ul><li><code>/home/ry/projects/node_modules/bar.js</code></li>
+<ul>
+<li><code>/home/ry/projects/node_modules/bar.js</code></li>
 <li><code>/home/ry/node_modules/bar.js</code></li>
 <li><code>/home/node_modules/bar.js</code></li>
 <li><code>/node_modules/bar.js</code></li>
-</ul><p>This allows programs to localize their dependencies, so that they do not
+</ul>
+<p>This allows programs to localize their dependencies, so that they do not
 clash.
 
 </p>
@@ -209,9 +236,11 @@ directory.  For example, if there was no package.json file in the above
 example, then <code>require('./some-library')</code> would attempt to load:
 
 </p>
-<ul><li><code>./some-library/index.js</code></li>
+<ul>
+<li><code>./some-library/index.js</code></li>
 <li><code>./some-library/index.node</code></li>
-</ul><h2 id="modules_caching">Caching<span><a class="mark" href="#modules_caching" id=""/></span></h2>
+</ul>
+<h2 id="modules_caching">Caching<span><a class="mark" href="#modules_caching" id=""/></span></h2>
 <!--type=misc-->
 
 <p>Modules are cached after the first time they are loaded.  This means
@@ -243,20 +272,27 @@ would resolve to different files.
 <!-- type=var -->
 <!-- name=module -->
 
-<ul><li>{Object}</li>
-</ul><p>In each module, the <code>module</code> free variable is a reference to the object
-representing the current module.  In particular
-<code>module.exports</code> is the same as the <code>exports</code> object.
-<code>module</code> isn't actually a global but rather local to each module.
+<ul>
+<li>{Object}</li>
+</ul>
+<p>In each module, the <code>module</code> free variable is a reference to the object
+representing the current module.  For convenience, <code>module.exports</code> is
+also accessible via the <code>exports</code> module-global. <code>module</code> isn't actually
+a global but rather local to each module.
 
 </p>
 <h3 id="modules_module_exports">module.exports<span><a class="mark" href="#modules_module_exports" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Object</span></li>
 </ul></div>
-<p>The <code>exports</code> object is created by the Module system. Sometimes this is not
-acceptable, many want their module to be an instance of some class. To do this
-assign the desired export object to <code>module.exports</code>. For example suppose we
-were making a module called <code>a.js</code>
+<p>The <code>module.exports</code> object is created by the Module system. Sometimes this is not
+acceptable; many want their module to be an instance of some class. To do this
+assign the desired export object to <code>module.exports</code>. Note that assigning the
+desired object to <code>exports</code> will simply rebind the local <code>exports</code> variable,
+which is probably not what you want to do.
+
+</p>
+<p>For example suppose we were making a module called <code>a.js</code>
 
 </p>
 <pre><code>var EventEmitter = require('events').EventEmitter;
@@ -290,23 +326,49 @@ done in any callbacks.  This does not work:
 </p>
 <pre><code>var x = require('./x');
 console.log(x.a);</code></pre>
+<h4 id="modules_exports_alias">exports alias<span><a class="mark" href="#modules_exports_alias" id=""/></span></h4>
+<p>The <code>exports</code> variable that is available within a module starts as a reference
+to <code>module.exports</code>. As with any variable, if you assign a new value to it, it
+is no longer bound to the previous value.
+
+</p>
+<p>To illustrate the behaviour, imagine this hypothetical implementation of
+<code>require()</code>:
+
+</p>
+<pre><code>function require(...) {
+  // ...
+  function (module, exports) {
+    // Your module code here
+    exports = some_func;        // re-assigns exports, exports is no longer
+                                // a shortcut, and nothing is exported.
+    module.exports = some_func; // makes your module export 0
+  } (module, module.exports);
+  return module;
+}</code></pre>
+<p>As a guideline, if the relationship between <code>exports</code> and <code>module.exports</code>
+seems like magic to you, ignore <code>exports</code> and only use <code>module.exports</code>.
+
+</p>
 <h3 id="modules_module_require_id">module.require(id)<span><a class="mark" href="#modules_module_require_id" id=""/></span></h3>
-<div class="signature"><ul><li><code>id</code> <span class="type">String</span></li>
-<li>Return: <span class="type">Object</span> <code>exports</code> from the resolved module</li>
+<div class="signature"><ul>
+<li><code>id</code> <span class="type">String</span></li>
+<li>Return: <span class="type">Object</span> <code>module.exports</code> from the resolved module</li>
 </ul></div>
 <p>The <code>module.require</code> method provides a way to load a module as if
 <code>require()</code> was called from the original module.
 
 </p>
 <p>Note that in order to do this, you must get a reference to the <code>module</code>
-object.  Since <code>require()</code> returns the <code>exports</code>, and the <code>module</code> is
+object.  Since <code>require()</code> returns the <code>module.exports</code>, and the <code>module</code> is
 typically <em>only</em> available within a specific module's code, it must be
 explicitly exported in order to be used.
 
 
 </p>
 <h3 id="modules_module_id">module.id<span><a class="mark" href="#modules_module_id" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">String</span></li>
+<div class="signature"><ul>
+<li><span class="type">String</span></li>
 </ul></div>
 <p>The identifier for the module.  Typically this is the fully resolved
 filename.
@@ -314,14 +376,16 @@ filename.
 
 </p>
 <h3 id="modules_module_filename">module.filename<span><a class="mark" href="#modules_module_filename" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">String</span></li>
+<div class="signature"><ul>
+<li><span class="type">String</span></li>
 </ul></div>
 <p>The fully resolved filename to the module.
 
 
 </p>
 <h3 id="modules_module_loaded">module.loaded<span><a class="mark" href="#modules_module_loaded" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Boolean</span></li>
+<div class="signature"><ul>
+<li><span class="type">Boolean</span></li>
 </ul></div>
 <p>Whether or not the module is done loading, or is in the process of
 loading.
@@ -329,14 +393,16 @@ loading.
 
 </p>
 <h3 id="modules_module_parent">module.parent<span><a class="mark" href="#modules_module_parent" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Module Object</span></li>
+<div class="signature"><ul>
+<li><span class="type">Module Object</span></li>
 </ul></div>
 <p>The module that required this one.
 
 
 </p>
 <h3 id="modules_module_children">module.children<span><a class="mark" href="#modules_module_children" id=""/></span></h3>
-<div class="signature"><ul><li><span class="type">Array</span></li>
+<div class="signature"><ul>
+<li><span class="type">Array</span></li>
 </ul></div>
 <p>The module objects required by this one.
 
@@ -406,10 +472,12 @@ semicolons instead of colons.)
 <p>Additionally, node will search in the following locations:
 
 </p>
-<ul><li>1: <code>$HOME/.node_modules</code></li>
+<ul>
+<li>1: <code>$HOME/.node_modules</code></li>
 <li>2: <code>$HOME/.node_libraries</code></li>
 <li>3: <code>$PREFIX/lib/node</code></li>
-</ul><p>Where <code>$HOME</code> is the user's home directory, and <code>$PREFIX</code> is node's
+</ul>
+<p>Where <code>$HOME</code> is the user's home directory, and <code>$PREFIX</code> is node's
 configured <code>node_prefix</code>.
 
 </p>
@@ -465,14 +533,16 @@ resolves symlinks), and then looks for their dependencies in the
 resolve with the following architecture:
 
 </p>
-<ul><li><code>/usr/lib/node/foo/1.2.3/</code> - Contents of the <code>foo</code> package, version 1.2.3.</li>
+<ul>
+<li><code>/usr/lib/node/foo/1.2.3/</code> - Contents of the <code>foo</code> package, version 1.2.3.</li>
 <li><code>/usr/lib/node/bar/4.3.2/</code> - Contents of the <code>bar</code> package that <code>foo</code>
 depends on.</li>
 <li><code>/usr/lib/node/foo/1.2.3/node_modules/bar</code> - Symbolic link to
 <code>/usr/lib/node/bar/4.3.2/</code>.</li>
 <li><code>/usr/lib/node/bar/4.3.2/node_modules/*</code> - Symbolic links to the packages
 that <code>bar</code> depends on.</li>
-</ul><p>Thus, even if a cycle is encountered, or if there are dependency
+</ul>
+<p>Thus, even if a cycle is encountered, or if there are dependency
 conflicts, every module will be able to get a version of its dependency
 that it can use.
 
@@ -502,4 +572,9 @@ relative, and based on the real path of the files making the calls to
     </div>
     
 
-  </body></html>
+  
+  
+  
+  
+</body>
+</html>
