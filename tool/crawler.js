@@ -1,10 +1,10 @@
 "use strict";
 
-var libxmlext = require('libxmlext'), 
-    fs = require('fs'), 
-    util = require('util'), 
-    request = require('request'), 
-    url = require('url'), 
+var libxmlext = require('libxmlext'),
+    fs = require('fs'),
+    util = require('util'),
+    request = require('request'),
+    url = require('url'),
     async = require('async'),
     cache = require('../lib/cache');
 
@@ -98,7 +98,7 @@ cache.clear(function(err) {
 
   var crawler = new Crawler();
   var version = process.env.NODE_VERSION || 'latest';
-  var srcUrl = 'http://nodejs.org/docs/' + version + '/api/index.html' 
+  var srcUrl = 'http://nodejs.org/docs/' + version + '/api/index.html'
   console.log('Get Document from %s', srcUrl);
   crawler.run(srcUrl, function(err) {
     console.timeEnd('elasped');

@@ -34,7 +34,7 @@ describe('cache', function() {
           if (err) return done(err);
 
           should.not.exist(result);
-          
+
           done();
         });
       });
