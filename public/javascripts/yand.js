@@ -54,24 +54,27 @@ Yand.prototype.bindEvents = function() {
     })
     .focus();
 
-  $('a', self.indexList).live('click', function(e) {
+  $(self.indexList).on('click', 'a', function(e) {
     e.preventDefault();
     $('li', self.indexList).removeClass('selected');
     $(this).parent().addClass('selected');
     self.linkOpen($(this));
   });
 
-  $('a', self.results).live('click', function(e) {
+  $(self.results).on('click', 'a', function(e) {
     e.preventDefault();
     $('li', self.results).removeClass('selected');
     $(this).parent().addClass('selected');
     self.linkOpen($(this));
   });
 
-  $('span:first', self.categories).toggle(function() {
-    self.listOpen($(this).closest('.category'));
-  }, function() {
-    self.listClose($(this).closest('.category'));
+  $('span:first', self.categories).on('click', function() {
+    $categoryClass = $(this).closest('.category');
+    if ($categoryClass.hasClass("close")) {
+      self.listOpen($categoryClass);
+    } else {
+      self.listClose($categoryClass);
+    }
   });
 };
 
