@@ -20,6 +20,14 @@ If you want to build document for Node.js v0.10.24, run following command.
 $ make NODE_VERSION=v0.10.24 build
 ```
 
+# Contributing
+
+  1. Fork it ( http://github.com/node-yand/yand/fork )
+  2. Create your feature branch (git checkout -b my-new-feature)
+  3. Commit your changes (git commit -am 'Add some feature')
+  4. Push to the branch (git push origin my-new-feature)
+  5. Create new Pull Request
+
 ## License
 
     (The MIT License)
