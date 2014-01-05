@@ -2,7 +2,8 @@ var fs = require('fs'),
     url = require('url'),
     util = require('util'),
     libxml = require('libxmlext'),
-    cache = require('../lib/cache');
+    cache = require('../lib/cache'),
+    config = require('./config');
 
 function escapeHTML(s) {
   return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -36,8 +37,8 @@ function renderTree(node, level) {
 
 var categories = [],
     items = require('../tmp/index'),
-    version = process.env.NODE_VERSION || 'latest';
-    uri = 'http://nodejs.org/docs/' + version + '/api/index.html',
+    version = process.env.NODE_VERSION || 'latest',
+    uri = config.SRC_URL,
     page = [
         '<!DOCTYPE html>',
         '<html><body>',

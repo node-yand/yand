@@ -11,7 +11,8 @@ var fs = require('fs'),
     url = require('url'),
     mkdirp = require('mkdirp'),
     crypto = require('crypto'),
-    async = require('async');
+    async = require('async'),
+    config = require('./config');
 
 libxml.Element.prototype.addClass = function(klass) {
   var origAttr = this.attr('class');
@@ -27,7 +28,7 @@ mkdirp.sync('public/docs', parseInt('744', 8));
 console.time('processTime');
 
 var version = process.env.NODE_VERSION || 'latest';
-var baseKey = 'http://nodejs.org/docs/' + version + '/api/*';
+var baseKey = config.BASE_KEY;
 cache.keys(baseKey, function(err, keys) {
   async.forEach(keys, function(uri, next) {
     cache.get(uri, function(err, src) {

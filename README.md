@@ -20,6 +20,12 @@ If you want to build document for Node.js v0.10.24, run following command.
 $ make NODE_VERSION=v0.10.24 build
 ```
 
+If you want to generate japanese contents, run following command.
+
+```sh
+$ make NODE_VERSION=v0.10 NODE_LANG=ja build
+```
+
 # Contributing
 
   1. Fork it ( http://github.com/node-yand/yand/fork )

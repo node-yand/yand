@@ -10,7 +10,8 @@ var fs = require('fs'),
     cache = require('../lib/cache'),
     url = require('url'),
     mkdirp = require('mkdirp'),
-    async = require('async');
+    async = require('async'),
+    config = require('./config');
 
 function makeTree(path, parent, li) {
   var node = [];
@@ -35,7 +36,7 @@ mkdirp.sync('tmp', parseInt('744', 8));
 
 console.time('processTime');
 var version = process.env.NODE_VERSION || 'latest';
-var baseKey = 'http://nodejs.org/docs/' + version + '/api/*';
+var baseKey = config.BASE_KEY;
 cache.keys(baseKey, function(err, keys) {
   var uri = keys[0],
       root = [];

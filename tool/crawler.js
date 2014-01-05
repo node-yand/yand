@@ -6,7 +6,8 @@ var libxmlext = require('libxmlext'),
     request = require('request'),
     url = require('url'),
     async = require('async'),
-    cache = require('../lib/cache');
+    cache = require('../lib/cache'),
+    config = require('./config');
 
 function debug(obj) {
   if (process.env.NODE_DEBUG) {
@@ -98,7 +99,7 @@ cache.clear(function(err) {
 
   var crawler = new Crawler();
   var version = process.env.NODE_VERSION || 'latest';
-  var srcUrl = 'http://nodejs.org/docs/' + version + '/api/index.html';
+  var srcUrl = config.SRC_URL;
   console.log('Get Document from %s', srcUrl);
   crawler.run(srcUrl, function(err) {
     console.timeEnd('elasped');
